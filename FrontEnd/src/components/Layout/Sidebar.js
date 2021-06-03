@@ -2,7 +2,7 @@ import logo200Image from 'assets/img/logo/logo_200.png';
 import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
 import SourceLink from 'components/SourceLink';
 import React from 'react';
-import { FaGithub } from 'react-icons/fa';
+//import { FaCaravan, } from 'react-icons/fa';
 import {
   MdAccountCircle,
   MdArrowDropDownCircle,
@@ -25,6 +25,13 @@ import {
   MdViewList,
   MdWeb,
   MdWidgets,
+ MdRestaurant,
+ MdCake,
+ MdRestaurantMenu,
+  MdPeople,
+  MdShoppingCart,
+  //MdCrop54,
+ // MdCrop75,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
@@ -65,6 +72,21 @@ const navComponents = [
   { to: '/modals', name: 'modals', exact: false, Icon: MdViewDay },
 ];
 
+/**
+const navFood = [
+  { to: '/FoodProducts', name: 'Add Food', exact: false, Icon: MdCrop },
+  
+ 
+];
+
+const navCategories = [
+  { to: '/Categories', name: 'Add Categories', exact: false, Icon: MdCrop54 },
+ 
+ 
+ 
+];
+ */
+
 const navContents = [
   { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
   { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
@@ -82,9 +104,15 @@ const pageContents = [
 
 const navItems = [
   { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
+  
   { to: '/cards', name: 'cards', exact: false, Icon: MdWeb },
   { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
   { to: '/widgets', name: 'widgets', exact: false, Icon: MdWidgets },
+   { to: '/admin/ListCategories', name: 'Manage Categories', exact: false, Icon: MdRestaurantMenu },
+   { to: '/FoodList', name: 'Manage FoodProducts', exact: false, Icon: MdCake },
+   { to: '/userList', name: 'Manage User Details', exact: false, Icon: MdPeople },
+   { to: '/OrderList', name: 'Order', exact: false, Icon: MdShoppingCart },
+   
 ];
 
 const bem = bn.create('sidebar');
@@ -121,7 +149,7 @@ class Sidebar extends React.Component {
                 alt=""
               />
               <span className="text-white">
-                Reduction <FaGithub />
+                Food Court <MdRestaurant/>
               </span>
             </SourceLink>
           </Navbar>
@@ -141,6 +169,12 @@ class Sidebar extends React.Component {
                 </BSNavLink>
               </NavItem>
             ))}
+
+ 
+            
+             
+
+
 
             <NavItem
               className={bem.e('nav-item')}
