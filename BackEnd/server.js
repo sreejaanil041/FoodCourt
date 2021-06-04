@@ -18,6 +18,8 @@ var jwt = require('jsonwebtoken');
 
 const app = express();
 
+app.use(express.static('public')); //public folder as static folder
+
 app.set('secretKey', 'nodeRestApi'); // jwt secret token// connection to mongodb
 
 app.set('secretKey1', 'nodeRestApiAdmin'); // jwt secret token// connection to mongodb
@@ -28,6 +30,8 @@ app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({extended: false}));
 
+const cors = require('cors');
+app.use(cors());
 
 app.get('/', function(req, res){
     res.json({"tutorial" : "Build REST API with node.js"});
@@ -92,9 +96,15 @@ app.use(function(err, req, res, next) {
     if(err.status === 404)
         res.status(404).json({message: "Not found"});
     else 
-        res.status(500).json({message: "Something looks wrong :( !!!", error:err});
+        res.status(500).json({status: "failed", message: "Something looks wrong", error:err});
 });
+
+// app.post('/uploadImage', imageUpload.single('image'), (req, res) => {
+//      res.send(req.file)
+// }, (error, req, res, next) => {
+//      res.status(400).send({ error: error.message })
+// })
   
-app.listen(4001, function(){
+app.listen(4000, function(){
     console.log('Node server listening on port 4000');
 });

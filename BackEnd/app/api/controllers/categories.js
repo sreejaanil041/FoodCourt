@@ -1,4 +1,7 @@
 const categoryModel = require('../models/categories');
+var multer  = require('multer')
+
+var fileUpload = require('../middlewares/upload');
 
 module.exports = {
 
@@ -28,19 +31,54 @@ module.exports = {
     },
 
     updateById: function(req, res, next) {
-        var data = {
-            category: req.body.category,
-            name: req.body.name,
-            image:  req.body.image,
-            description: req.body.description,
-            created_by: req.body.created_by,
-            updated_by: req.body.updated_by
-        };
-        categoryModel.findByIdAndUpdate(req.params.categoryId, data, function(err, categoryInfo){
-            if(err){
-                next(err);
-            }else {
-                res.json({status:"success", message: "Category updated successfully!!!", categories: categoryInfo});
+        // var data = {
+        //     category: req.body.category,
+        //     name: req.body.name,
+        //     image:  req.body.image,
+        //     description: req.body.description,
+        //     created_by: req.body.created_by,
+        //     updated_by: req.body.updated_by
+        // };
+        // categoryModel.findByIdAndUpdate(req.params.categoryId, data, function(err, categoryInfo){
+        //     if(err){
+        //         next(err);
+        //     }else {
+        //         res.json({status:"success", message: "Category updated successfully!!!", categories: categoryInfo});
+        //     }
+        // });
+        var upload = multer({
+            storage: fileUpload.files.storage(), 
+            limits: {
+                fileSize: 2000000 // 1000000 Bytes = 1 MB
+            },
+            fileFilter(req, file, cb) {
+                if (!file.originalname.match(/\.(png|jpg)$/)) { 
+                    // upload only png and jpg format
+                    return cb(new Error('Please upload a Image'))
+                }
+                cb(undefined, true)
+            }
+        }).single('image');
+
+        upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                res.json({status: "failed", message: "Something went wrong", error: err});
+            } else if (err) {
+                res.json({status: "failed", message: "Something went wrong", error: err});
+            }else{
+                var data = {
+                    category: req.body.category,
+                    name: req.body.name,
+                    image: req.file ? req.file.filename : null,
+                    description: req.body.description
+                };
+                categoryModel.findByIdAndUpdate(req.params.categoryId, data, function(err, categoryInfo){
+                    if(err){
+                        next(err);
+                    }else {
+                        res.json({status:"success", message: "Category updated successfully!!!", categories: categoryInfo});
+                    }
+                });
             }
         });
     },
@@ -56,17 +94,39 @@ module.exports = {
     },
 
     create: function(req, res, next) {
-        categoryModel.create({
-            category: req.body.category,
-            name: req.body.name,
-            description: req.body.description,
-            created_by: req.body.created_by,
-            updated_by: req.body.updated_by,
-        }, function (err, result) {
-            if(err){
-                next(err);
+        var upload = multer({
+            storage: fileUpload.files.storage(), 
+            limits: {
+                fileSize: 2000000 // 1000000 Bytes = 1 MB
+            },
+            fileFilter(req, file, cb) {
+                if (!file.originalname.match(/\.(png|jpg)$/)) { 
+                    // upload only png and jpg format
+                    return cb(new Error('Please upload a Image'))
+                }
+                cb(undefined, true)
+            }
+        }).single('image');
+
+        upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                res.json({status: "failed", message: "Something went wrong", error: err});
+            } else if (err) {
+                res.json({status: "failed", message: "Something went wrong", error: err});
             }else{
-                res.json({status: "success", message: "Category added successfully!!!", data: null});
+                var saveobj = {
+                    category: req.body.category,
+                    name: req.body.name,
+                    description : req.body.description,
+                    image: req.file ? req.file.filename : null,
+                }
+                categoryModel.create(saveobj, function (err, result) {
+                    if(err){
+                        next(err);
+                    }else{
+                        res.json({status: "success", message: "Category added successfully!!!", data: null});
+                    }
+                });
             }
         });
     }
