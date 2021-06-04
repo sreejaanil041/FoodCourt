@@ -10,6 +10,8 @@ const categories = require('./routes/categories');
 
 const adminusers = require('./routes/adminusers');
 
+const shippings = require('./routes/shippings');
+
 const bodyParser = require('body-parser');
 
 const mongoose = require('./config/database'); //database configuration
@@ -46,6 +48,7 @@ app.use('/movies', validateUser, movies);
 
 app.use('/categories', categories);
 
+app.use('/shippings', shippings);// private route
 
 app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);

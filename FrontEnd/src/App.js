@@ -24,6 +24,13 @@ const ProgressPage = React.lazy(() => import('pages/ProgressPage'));
 const TablePage = React.lazy(() => import('pages/TablePage'));
 const TypographyPage = React.lazy(() => import('pages/TypographyPage'));
 const WidgetPage = React.lazy(() => import('pages/WidgetPage'));
+const FoodProductsPage = React.lazy(() => import('pages/FoodProducts'));
+const FoodListPage = React.lazy(() => import('pages/FoodList'));
+const CategoriesPage = React.lazy(() => import('pages/Categories'));
+const CategoriesListPage = React.lazy(() => import('pages/CategoriesList'));
+const OrderListPage = React.lazy(() => import('pages/OrderList'));
+const UserListPage = React.lazy(() => import('pages/UserList'));
+const AddUserPage = React.lazy(() => import('pages/AddUser'));
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -54,6 +61,7 @@ class App extends React.Component {
 
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
+             
                 <Route exact path="/" component={DashboardPage} />
                 <Route exact path="/login-modal" component={AuthModalPage} />
                 <Route exact path="/buttons" component={ButtonPage} />
@@ -63,6 +71,13 @@ class App extends React.Component {
                 <Route exact path="/alerts" component={AlertPage} />
                 <Route exact path="/tables" component={TablePage} />
                 <Route exact path="/badges" component={BadgePage} />
+                <Route exact path="/FoodProducts" component={FoodProductsPage} />
+                <Route exact path="/FoodList" component={FoodListPage} />
+                <Route exact path="/Categories" component={CategoriesPage} />
+                <Route exact path="/admin/ListCategories" component={CategoriesListPage} />
+                 <Route exact path="/OrderList" component={OrderListPage} />
+                 <Route exact path="/UserList" component={UserListPage} />
+                 <Route exact path="/AddUser" component={AddUserPage} />
                 <Route
                   exact
                   path="/button-groups"
