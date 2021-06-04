@@ -1,5 +1,7 @@
 import Page from 'components/Page';
 import React from 'react';
+import axios from 'axios';
+
 import {
   Button,
   Card,
@@ -16,6 +18,46 @@ import {
 
 class Categories extends React.Component
 {
+  
+   constructor(props)
+  {
+    super(props)
+    this.state = {
+      category:'',
+      name:'',
+      description:'',
+      image:''
+    }
+    }
+
+      Categories=()=>{
+     let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
+     console.log('name: ',formdata );
+    axios.post('http://localhost:4001/categories', formdata,{
+    headers: {
+    'Content-Type': 'application/json','Access-Control-Allow-Origin' : '*'
+    }
+  })   
+  
+.then(json => {  
+  console.log('json: ', json );
+if(json.data.Status==='Success'){  
+  console.log(json.data.Status);  
+  alert("Data Save Successfully");  
+this.props.history.push('/CategoriesList')  
+}  
+else{  
+alert('Data not Saved');  
+debugger;  
+this.props.history.push('/CategoriesList')  
+}  
+})  
+}  
+
+handleChange= (e)=> {  
+this.setState({[e.target.name]:e.target.value});  
+}  
+
     render()
     {
         return(
@@ -31,7 +73,7 @@ class Categories extends React.Component
           <Card>
             <CardHeader>Add Food Categories Form</CardHeader>
             <CardBody>
-              <Form>
+              <Form enctype='multipart/form-data'>
                 <FormGroup row>
                   <Label for="ParentCategory" sm={2}>
                     Parent Category
@@ -39,7 +81,8 @@ class Categories extends React.Component
                   <Col sm={10}>
                     <Input
                       type="text"
-                      name="ParentCategory"
+                      name="category"
+                       onChange={this.handleChange} value={this.state.category}
                       placeholder="Enter Food Parent Category"
                     />
                   </Col>
@@ -52,10 +95,17 @@ class Categories extends React.Component
                   <Col sm={10}>
                     <Input
                       type="text"
-                      name="Category"
+                      name="name"
+                       onChange={this.handleChange} value={this.state.name}
                       placeholder="Enter Food Category"
                     />
                   </Col>
+                </FormGroup>
+                
+                 <FormGroup>
+                  <Label for="Description">Description</Label>
+                  <Input type="textarea" name="description" onChange={this.handleChange} value={this.state.description} />
+                   
                 </FormGroup>
 
                 <FormGroup row>
@@ -63,16 +113,19 @@ class Categories extends React.Component
                     Category Image
                   </Label>
                   <Col sm={10}>
-                    <Input type="file" name="file" />
+                    <Input type="file" name="image" onChange={this.handleChange} value={this.state.image}/>
+                     
                     <FormText color="muted">
                       Select a food category image
                     </FormText>
                   </Col>
                 </FormGroup>
 
+               
+
                  <FormGroup check row>
                   <Col sm={{ size: 10, offset: 2 }}>
-                    <Button>Save</Button>
+                    <Button onClick={this.Categories} className="btn btn-secondary">Save</Button>
                   </Col>
                 </FormGroup>
                 </Form>

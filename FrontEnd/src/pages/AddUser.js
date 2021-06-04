@@ -27,7 +27,7 @@ class AddUser extends React.Component
            email: '',
            password: '',
            phone_number:'',
-           image:'',
+           image:''
           
 
     }

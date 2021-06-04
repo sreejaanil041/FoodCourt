@@ -1,5 +1,6 @@
 import Page from 'components/Page';
 import React from 'react';
+import axios from 'axios';
 import {
   Button,
   Card,
@@ -16,6 +17,50 @@ import {
 
 class FoodProducts extends React.Component
 {
+
+   constructor(props)
+  {
+    super(props)
+    this.state = {
+           productname: '',
+           categoryselect: '',
+           qty: '',
+           price:'',
+           desc:'',
+           image:'',
+           status:''
+    }
+  }
+
+  AddUser=()=>{
+     let formdata = {name:this.state.name, email:this.state.email, password:this.state.password, phone_number:this.state.phone_number,
+     image:this.state.image}
+     console.log('name: ',formdata );
+    axios.post('http://localhost:4001/users/register', formdata,{
+    headers: {
+    'Content-Type': 'application/json','Access-Control-Allow-Origin' : '*'
+    }
+  })   
+  
+.then(json => {  
+  console.log('json: ', json );
+if(json.data.Status==='Success'){  
+  console.log(json.data.Status);  
+  alert("Data Save Successfully");  
+this.props.history.push('/UserList')  
+}  
+else{  
+alert('Data not Saved');  
+debugger;  
+this.props.history.push('/UserList')  
+}  
+})  
+}  
+
+handleChange= (e)=> {  
+this.setState({[e.target.name]:e.target.value});  
+}  
+
   render()
   {
     return (
@@ -38,7 +83,7 @@ class FoodProducts extends React.Component
                   <Col sm={10}>
                     <Input
                       type="text"
-                      name="prodName"
+                      name="productname"
                       placeholder="Enter a Food Item"
                     />
                   </Col>
@@ -53,14 +98,6 @@ class FoodProducts extends React.Component
                   </Col>
                 </FormGroup>
 
-                <FormGroup row>
-                  <Label for="currencySelect" sm={2}>
-                    Select Currency
-                  </Label>
-                  <Col sm={10}>
-                    <Input type="select" name="currencySelect" />
-                  </Col>
-                </FormGroup>
 
                 <FormGroup row>
                   <Label for="Quantity" sm={2}>
@@ -102,7 +139,7 @@ class FoodProducts extends React.Component
                     Product Image
                   </Label>
                   <Col sm={10}>
-                    <Input type="file" name="file" />
+                    <Input type="file" name="image" />
                     <FormText color="muted">
                       Select a food image
                     </FormText>
@@ -116,12 +153,12 @@ class FoodProducts extends React.Component
                   <Col sm={10}>
                     <FormGroup check>
                       <Label check>
-                        <Input type="radio" name="radio2" /> Yes
+                        <Input type="radio" name="status" /> Yes
                       </Label>
                     </FormGroup>
                     <FormGroup check>
                       <Label check>
-                        <Input type="radio" name="radio2" /> No
+                        <Input type="radio" name="status" /> No
                       </Label>
                     </FormGroup>
                     
