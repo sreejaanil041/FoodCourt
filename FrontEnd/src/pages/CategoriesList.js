@@ -1,14 +1,38 @@
 import Page from 'components/Page';
 import React from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, FormGroup } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row,  FormGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-const tableTypes = [ 'striped'];
-
-
-
+import axios from 'axios';
+import {configpath} from '../utils/config' 
 
 class CategoriesList extends React.Component
 {
+
+  constructor(props) {  
+      super(props);  
+      this.state = {data: []};  
+    }  
+    componentDidMount(){  
+      debugger;  
+      axios.get( configpath + '/categories')  
+        .then(response => {  
+          this.setState({ data: response.data.categories });  
+          debugger;  
+  
+        })  
+        .catch(function (error) {  
+          console.log(error);  
+        })  
+    }  
+      
+   DeleteCategories= (categoryId) =>{  
+     axios.delete( configpath + '/categories/'+ categoryId)  
+    .then(json => {  
+    if(json.data.Status==='Delete'){  
+    alert('Record deleted successfully!!');  
+    }  
+    })  
+    }   
 render(){
 
  return (
@@ -17,8 +41,8 @@ render(){
       breadcrumbs={[{ name: 'CategoriesList', active: true }]}
       className="CategoriesList"
     >
-      {tableTypes.map((tableType, index) => (
-        <Row key={index}>
+      
+        <Row >
 
                 <Col>
                 <Card className="mb-3" >
@@ -33,48 +57,52 @@ render(){
                 </FormGroup>
                     </Card>
                     <Card body>
-                      <Table dark>
+                       <table className="table table-striped" style={{ marginTop: 10 }}>  
                         <thead>
                           <tr>
                             <th>Category Id:</th>
                             <th>Parent Category</th>
                             <th>Category</th>
-                            <th>Availability</th>
-                            <th>Action</th>
+                            <th>Description</th>
+                            <th>Image</th>
                            
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                             <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                             <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                             <td></td>
-                          </tr>
+                         {this.state.data.map(function(object, i){  
+         return (  
+        <tr key={i}>  
+          <td>  
+            {object.category}  
+          </td>  
+          <td>  
+            {object.name}  
+          </td>  
+          <td>  
+            {object.description}  
+          </td>  
+          <td>  
+            {object.image}  
+          </td>  
+          <td>  
+          <Link to={"/edit/"+object.categoryId} className="btn btn-success">Edit</Link>  
+          </td>  
+          <td>  
+            <button type="button" onClick={this.DeleteCategories(object.id)} className="btn btn-danger">Delete</button>  
+          </td>  
+        </tr>  
+    ) 
+      })  }
+                          
                         </tbody>
-                      </Table>
+                      </table>
               </Card>
               </CardBody>
             </Card>
           </Col>
         </Row>
-      )
-      )}
+      
+      
       </Page>
       );
       }

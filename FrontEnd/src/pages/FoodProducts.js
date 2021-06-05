@@ -1,6 +1,7 @@
 import Page from 'components/Page';
 import React from 'react';
 import axios from 'axios';
+import {configpath} from '../utils/config'
 import {
   Button,
   Card,
@@ -32,11 +33,11 @@ class FoodProducts extends React.Component
     }
   }
 
-  AddUser=()=>{
+  FoodProducts =()=>{
      let formdata = {name:this.state.name, email:this.state.email, password:this.state.password, phone_number:this.state.phone_number,
      image:this.state.image}
      console.log('name: ',formdata );
-    axios.post('http://localhost:4001/users/register', formdata,{
+    axios.post( configpath + 'foodProducts/register', formdata,{
     headers: {
     'Content-Type': 'application/json','Access-Control-Allow-Origin' : '*'
     }
@@ -47,12 +48,12 @@ class FoodProducts extends React.Component
 if(json.data.Status==='Success'){  
   console.log(json.data.Status);  
   alert("Data Save Successfully");  
-this.props.history.push('/UserList')  
+this.props.history.push('/FoodList')  
 }  
 else{  
 alert('Data not Saved');  
 debugger;  
-this.props.history.push('/UserList')  
+this.props.history.push('/FoodList')  
 }  
 })  
 }  
@@ -84,6 +85,7 @@ this.setState({[e.target.name]:e.target.value});
                     <Input
                       type="text"
                       name="productname"
+                      onChange={this.handleChange} value={this.state.productname}
                       placeholder="Enter a Food Item"
                     />
                   </Col>
@@ -94,7 +96,7 @@ this.setState({[e.target.name]:e.target.value});
                     Select Category
                   </Label>
                   <Col sm={10}>
-                    <Input type="select" name="categorySelect" />
+                    <Input type="select" name="categorySelect" onChange={this.handleChange} value={this.state.categorySelect} />
                   </Col>
                 </FormGroup>
 
@@ -108,6 +110,7 @@ this.setState({[e.target.name]:e.target.value});
                       type="text"
                       name="qty"
                       placeholder="Enter the quantity"
+                      onChange={this.handleChange} value={this.state.qty}
                     />
                   </Col>
                 </FormGroup>
@@ -121,6 +124,7 @@ this.setState({[e.target.name]:e.target.value});
                       type="text"
                       name="price"
                       placeholder="Enter the Food Price"
+                      onChange={this.handleChange} value={this.state.price}
                     />
                   </Col>
                 </FormGroup>
@@ -130,7 +134,7 @@ this.setState({[e.target.name]:e.target.value});
                     Description
                   </Label>
                   <Col sm={10}>
-                    <Input type="textarea" name="desc" />
+                    <Input type="textarea" name="desc" onChange={this.handleChange} value={this.state.desc} />
                   </Col>
                 </FormGroup>
 
@@ -139,7 +143,7 @@ this.setState({[e.target.name]:e.target.value});
                     Product Image
                   </Label>
                   <Col sm={10}>
-                    <Input type="file" name="image" />
+                    <Input type="file" name="image" onChange={this.handleChange} value={this.state.image} />
                     <FormText color="muted">
                       Select a food image
                     </FormText>
@@ -150,15 +154,15 @@ this.setState({[e.target.name]:e.target.value});
                   <Label for="Availability" sm={2}>
                    Availability Status
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={10}> 
                     <FormGroup check>
                       <Label check>
-                        <Input type="radio" name="status" /> Yes
+                        <Input type="radio" name="status" onChange={this.handleChange} value={this.state.status}/> Yes
                       </Label>
                     </FormGroup>
                     <FormGroup check>
                       <Label check>
-                        <Input type="radio" name="status" /> No
+                        <Input type="radio" name="status" onChange={this.handleChange} value={this.state.status} /> No
                       </Label>
                     </FormGroup>
                     
@@ -167,7 +171,7 @@ this.setState({[e.target.name]:e.target.value});
 
                  <FormGroup check row>
                   <Col sm={{ size: 10, offset: 2 }}>
-                    <Button>Save</Button>
+                    <Button onClick={this.FoodProducts}  className="btn btn-secondary">Save</Button>
                   </Col>
                 </FormGroup>
 

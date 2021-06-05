@@ -2,7 +2,6 @@ import Page from 'components/Page';
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 
-const tableTypes = [''];
 
 class OrderList extends React.Component
 {
@@ -14,8 +13,8 @@ render(){
       breadcrumbs={[{ name: 'orderList', active: true }]}
       className="OrderList"
     >
-      {tableTypes.map((tableType, index) => (
-        <Row key={index}>
+      
+        <Row >
 
                 <Col>
                 <Card className="mb-3" >
@@ -75,8 +74,8 @@ render(){
             </Card>
           </Col>
         </Row>
-      )
-      )}
+     
+      
       </Page>
       );
       }

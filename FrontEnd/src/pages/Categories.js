@@ -1,7 +1,7 @@
 import Page from 'components/Page';
 import React from 'react';
 import axios from 'axios';
-
+import {configpath} from '../utils/config'
 import {
   Button,
   Card,
@@ -33,7 +33,7 @@ class Categories extends React.Component
       Categories=()=>{
      let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
      console.log('name: ',formdata );
-    axios.post('http://localhost:4001/categories', formdata,{
+    axios.post(configpath +'/categories', formdata,{
     headers: {
     'Content-Type': 'application/json','Access-Control-Allow-Origin' : '*'
     }

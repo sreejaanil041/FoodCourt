@@ -2,10 +2,37 @@ import Page from 'components/Page';
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, FormGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-const tableTypes = [''];
+import axios from 'axios';
+import {configpath} from '../utils/config'
 
 class UserList extends React.Component
 {
+
+  constructor(props) {  
+      super(props);  
+      this.state = {data: []};  
+    }  
+    componentDidMount(){  
+      debugger;  
+      axios.get(configpath + '/users/')  
+        .then(response => {  
+          this.setState({ data: response.data.user });  
+          debugger;  
+  
+        })  
+        .catch(function (error) {  
+          console.log(error);  
+        })  
+    }  
+
+   DeleteUser= (id) =>{  
+     axios.delete(configpath + '/users/'+id)  
+    .then(json => {  
+    if(json.data.Status==='Delete'){  
+    alert('Record deleted successfully!!');  
+    }  
+    })  
+    }  
   
 render(){
 
@@ -13,10 +40,9 @@ render(){
     <Page
       title="User List"
       breadcrumbs={[{ name: 'userList', active: true }]}
-      className="UserList"
-    >
-      {tableTypes.map((tableType, index) => (
-        <Row key={index}>
+      className="UserList">
+     
+        <Row >
 
                 <Col>
                 <Card className="mb-3" >
@@ -35,34 +61,38 @@ render(){
                           <tr>
                             <th>User Id</th>
                             <th>User Name</th>
-                            <th>Location</th>
-                            <th>emailId</th>
-                            <th>Actions</th>
+                            <th>email</th>
+                            <th>Phone</th>
+                            <th>Image</th>
                             
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                           <td></td>
-                          </tr>
+                        {/* {this.state.data.map(function(object, i){  
+                           return (  
+        <tr key ={i}>  
+          <td>  
+            {this.props.obj.name}  
+          </td>  
+          <td>  
+            {this.props.obj.email}  
+          </td>  
+          
+          <td>  
+            {this.props.obj.phone_number}  
+          </td>  
+          <td>  
+            {this.props.obj.image}  
+          </td>  
+          <td>  
+          <Link to={"/edit/"+object.userid} className="btn btn-success">Edit</Link>  
+          </td>  
+          <td>  
+            <button type="button" onClick={this.DeleteUser} className="btn btn-danger">Delete</button>  
+          </td>  
+        </tr>  
+    );  
+     });  } */}
                         </tbody>
                       </Table>
               </Card>
@@ -70,8 +100,8 @@ render(){
             </Card>
           </Col>
         </Row>
-      )
-      )}
+    
+      
       </Page>
       );
       }

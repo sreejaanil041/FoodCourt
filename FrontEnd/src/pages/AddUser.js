@@ -1,6 +1,7 @@
 import Page from 'components/Page';
 import React from 'react';
 import axios from 'axios';
+import {configpath} from '../utils/config'
 
 import {
   Button,
@@ -37,7 +38,7 @@ class AddUser extends React.Component
 let formdata = {name:this.state.name, email:this.state.email, password:this.state.password, phone_number:this.state.phone_number,
      image:this.state.image}
      console.log('name: ',formdata );
-    axios.post('http://localhost:4001/users/register', formdata,{
+    axios.post(configpath +'/users/register', formdata,{
     headers: {
     'Content-Type': 'application/json','Access-Control-Allow-Origin' : '*'
     }
@@ -122,12 +123,12 @@ this.setState({[e.target.name]:e.target.value});
 
                 <FormGroup row>
                   <Label for="Image" sm={2}>
-                   User Photo
+                   User Image
                   </Label>
                   <Col sm={10}>
                     <Input type="file" name="image"  onChange={this.handleChange} value={this.state.image} />
                     <FormText color="muted">
-                      Enter your Photo
+                      Enter your Image
                     </FormText>
                   </Col>
                 </FormGroup>
