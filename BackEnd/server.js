@@ -14,6 +14,9 @@ const adminusers = require('./routes/adminusers');
 
 const shippings = require('./routes/shippings');
 
+const orders = require('./routes/orders');
+
+
 const bodyParser = require('body-parser');
 
 const mongoose = require('./config/database'); //database configuration
@@ -32,7 +35,7 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 
 app.use(logger('dev'));
 
-//app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 const jsonParser = bodyParser.json();
 
@@ -57,6 +60,8 @@ app.use('/categories', categories);
 app.use('/products', products);
 
 app.use('/shippings', shippings);// private route
+
+app.use('/orders', orders);
 
 app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);
