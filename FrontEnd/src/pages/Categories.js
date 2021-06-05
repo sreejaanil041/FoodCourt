@@ -34,24 +34,17 @@ class Categories extends React.Component
      let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
      console.log('name: ',formdata );
     axios.post(configpath +'/categories', formdata,{
-    headers: {
-    'Content-Type': 'application/json','Access-Control-Allow-Origin' : '*'
-    }
+      headers: {
+      'Content-Type': 'application/json',
+      //'Authorization': token
+      }
   })   
   
-.then(json => {  
-  console.log('json: ', json );
-if(json.data.Status==='Success'){  
-  console.log(json.data.Status);  
-  alert("Data Save Successfully");  
-this.props.history.push('/CategoriesList')  
-}  
-else{  
-alert('Data not Saved');  
-debugger;  
-this.props.history.push('/CategoriesList')  
-}  
-})  
+.then((response) => {
+  console.log(response);
+}, (error) => {
+  console.log(error);
+}) 
 }  
 
 handleChange= (e)=> {  
