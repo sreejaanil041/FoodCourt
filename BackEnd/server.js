@@ -32,7 +32,11 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 
 app.use(logger('dev'));
 
-app.use(bodyParser.urlencoded({extended: false}));
+//app.use(bodyParser.urlencoded({extended: false}));
+
+const jsonParser = bodyParser.json();
+
+app.use(jsonParser);
 
 const cors = require('cors');
 app.use(cors());
