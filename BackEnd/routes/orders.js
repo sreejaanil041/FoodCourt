@@ -4,6 +4,7 @@ const router = express.Router();
 
 const orderController = require('../app/api/controllers/orders');
 
+router.post('/create', orderController.create);
 
 router.get('/cart', orderController.getCartAll);
 
