@@ -6,7 +6,6 @@ var fileUpload = require('../middlewares/upload');
 module.exports = {
 
     getById: function(req, res, next) {
-        console.log(req.body);
         categoryModel.findById(req.params.categoryId, function(err, categoryInfo){
             if (err) {
                 next(err);
@@ -17,12 +16,13 @@ module.exports = {
     },
 
     getAll: function(req, res, next) {
-        let categoriesList = [];categoryModel.find({status:1, deleted:0}, function(err, categories){
+        let categoriesList = [];
+        categoryModel.find({status:1, deleted:0}, function(err, categories){
             if (err){
                 next(err);
             } else{
                 for (let category of categories) {
-                    categoriesList.push({id: category._id, name: category.name, image: category.image, description: category.name});
+                    categoriesList.push({id: category._id, name: category.name, image: (category.image != null) ? "/files/"+category.image : null, description: category.name});
                 }
                 res.json({status:"success", message: "Categories list found!!!", data:{categories: categoriesList}});
                 
@@ -54,9 +54,11 @@ module.exports = {
             fileFilter(req, file, cb) {
                 if (!file.originalname.match(/\.(png|jpg)$/)) { 
                     // upload only png and jpg format
-                    return cb(new Error('Please upload a Image'))
+                    return res.json({status: "failed", message: "Please upload a Image"});
+                    //return cb(new Error('Please upload a Image'), false);
+                    
                 }
-                cb(undefined, true)
+                cb(undefined, true);
             }
         }).single('image');
 
@@ -64,7 +66,7 @@ module.exports = {
             if (err instanceof multer.MulterError) {
                 res.json({status: "failed", message: "Something went wrong", error: err});
             } else if (err) {
-                res.json({status: "failed", message: "Something went wrong", error: err});
+                res.json({status: "failedss", message: "Something went wrong", error: err});
             }else{
                 var data = {
                     category: req.body.category,
@@ -102,7 +104,8 @@ module.exports = {
             fileFilter(req, file, cb) {
                 if (!file.originalname.match(/\.(png|jpg)$/)) { 
                     // upload only png and jpg format
-                    return cb(new Error('Please upload a Image'))
+                    return res.json({status: "failed", message: "Please upload a Image"});
+                    //return cb(new Error('Please upload a Image'))
                 }
                 cb(undefined, true)
             }
