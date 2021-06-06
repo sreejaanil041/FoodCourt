@@ -12,4 +12,8 @@ router.post('/add-to-cart', orderController.addToCart);
 
 router.delete('/cart/:productId', orderController.deleteCartById);
 
+router.get('/getallorders', orderController.getAll);
+
+router.post('/getorders', orderController.getOrder);
+
 module.exports = router; 

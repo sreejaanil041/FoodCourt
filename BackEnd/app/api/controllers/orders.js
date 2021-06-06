@@ -170,5 +170,69 @@ module.exports = {
 
                 });  
       
-      }
+      },
+      
+      getAll: function(req, res, next) {
+        let ordersList = [];
+	
+	//.populate({path: 'category_id', select:['name', 'category']})
+
+        transactionModel.find().populate({path: 'user_id', select:['name']}).sort({"created": 1}).exec(function(err, orders){
+            if (err){
+                next(err);
+            } else{
+                for (let order of orders) {
+                    ordersList.push({
+                        id: order._id,
+                        payment_type: order.payment_type,
+                        payment_status: order.payment_status,
+                        created: order.created,
+                        modified: order.modified,
+                        user_id: order.user_id,
+                        order_ids: order.order_ids,
+                        order_amount: order.order_amount,
+			shipping_address_id: order.shipping_address_id,
+			delivery_amount: order.delivery_amount,
+			discount_amount: order.discount_amount
+			
+                    });
+                }
+                res.json({status:"success", message: "orders list found!!!", data:{orders: orders}});
+                
+            }
+        });
+    },
+    
+    getOrder: function(req, res, next) {
+        let ordersList = [];
+	
+	//.populate({path: 'category_id', select:['name', 'category']})
+
+        transactionModel.find({user_id:req.body.user_id}).sort({"created": 1}).exec(function(err, orders){
+            if (err){
+                next(err);
+            } else{
+                for (let order of orders) {
+                    ordersList.push({
+                        id: order._id,
+                        payment_type: order.payment_type,
+                        payment_status: order.payment_status,
+                        created: order.created,
+                        modified: order.modified,
+                        user_id: order.user_id,
+                        order_ids: order.order_ids,
+                        order_amount: order.order_amount,
+			shipping_address_id: order.shipping_address_id,
+			delivery_amount: order.delivery_amount,
+			discount_amount: order.discount_amount
+			
+                    });
+                }
+                res.json({status:"success", message: "orders list found!!!", data:{orders: orders}});
+                
+            }
+        });
+    },
+      
+      
 }
