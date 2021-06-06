@@ -17,7 +17,7 @@ class FoodList extends React.Component
       debugger;  
       axios.get( configpath + '/foodProducts')  
         .then(response => {  
-          this.setState({ data: response.data.categories });  
+          this.setState({ data: response.data.products });  
           debugger;  
   
         })  
@@ -26,7 +26,7 @@ class FoodList extends React.Component
         })  
     }  
       
-   DeleteCategories= (foodProductsId) =>{  
+   DeleteProduct= (foodProductsId) =>{  
      axios.delete( configpath + '/foodProducts/'+ foodProductsId)  
     .then(json => {  
     if(json.data.Status==='Delete'){  
@@ -71,41 +71,41 @@ render(){
                           </tr>
                         </thead>
                         <tbody>
-                         {/* {this.state.data.map(function(object, i){  
+                          {this.state.data.map(function(object, i){  
                           return (  
         <tr key ={i}>  
         <td>  
-            {this.props.obj.productname}  
+            {this.object.productname}  
           </td>
           <td>  
-            {this.props.obj.categoryselect}  
+            {this.object.categoryselect}  
           </td>  
             
           <td>  
-            {this.props.obj.qty}  
+            {this.object.qty}  
           </td>  
           <td>  
-            {this.props.obj.price}  
+            {this.object.price}  
           </td>  
           <td>  
-            {this.props.obj.desc}  
+            {this.object.desc}  
           </td>  
             
           <td>  
-            {this.props.obj.image}  
+            {this.object.image}  
           </td>  
           <td>  
-            {this.props.obj.status}  
+            {this.object.status}  
           </td>  
           <td>  
-          <Link to={"/edit/"+this.props.obj.productid} className="btn btn-success">Edit</Link>  
+          <Link to={"/edit/"+this.object.productid} className="btn btn-success">Edit</Link>  
           </td>  
           <td>  
             <button type="button" onClick={this.DeleteProduct} className="btn btn-danger">Delete</button>  
           </td>  
         </tr>  
-    );  
-     });  } */}
+    ) 
+     })  } 
                         </tbody>
                       </Table>
               </Card>

@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, FormGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {configpath} from '../utils/config'
+import {configpath} from '../utils/config';
 
 class UserList extends React.Component
 {
@@ -68,21 +68,21 @@ render(){
                           </tr>
                         </thead>
                         <tbody>
-                        {/* {this.state.data.map(function(object, i){  
+                        {this.state.data.map(function(object, i){  
                            return (  
         <tr key ={i}>  
           <td>  
-            {this.props.obj.name}  
+            {this.object.name}  
           </td>  
           <td>  
-            {this.props.obj.email}  
+            {this.object.email}  
           </td>  
           
           <td>  
-            {this.props.obj.phone_number}  
+            {this.object.phone_number}  
           </td>  
           <td>  
-            {this.props.obj.image}  
+            {this.object.image}  
           </td>  
           <td>  
           <Link to={"/edit/"+object.userid} className="btn btn-success">Edit</Link>  
@@ -91,8 +91,8 @@ render(){
             <button type="button" onClick={this.DeleteUser} className="btn btn-danger">Delete</button>  
           </td>  
         </tr>  
-    );  
-     });  } */}
+    )  
+     })  } 
                         </tbody>
                       </Table>
               </Card>
