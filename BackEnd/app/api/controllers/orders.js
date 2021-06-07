@@ -2,7 +2,7 @@ const productModel = require('../models/products');
 const cartModel = require('../models/carts');
 
 module.exports = {
-    addToCart: function(req, res, next) {console.log()
+    addToCart: function(req, res, next) {
         if(req.body.products){
             req.body.products.forEach(function(product) {
                 var status = "success";
@@ -65,118 +65,75 @@ module.exports = {
             }
         });
     },
-    
     create: function(req, res, next) {
-   
-   
-		    shippingModel.findById(req.body.shipping_address_id).exec(function(err, data){
-		    if(!data)
-		    {
-			res.json({status: "error", message: "No shipping address found!!!", data: null});
-		    }
-		      
-		    });   
-		    
-		    cartModel.find({user_id:req.body.user_id}).exec(function(err, cartdata){
-		      
-		     // console.log(cartdata);
-		    if(!cartdata)
-		    {
-			res.json({status: "error", message: "Cart empty for this User!!!", data: null});
-		    }
-		    else
-		    {
-			var order_fullamount=0;
-			var order_fulldeliveryamount=0;
-			var order_fulldiscount_amount=0;
-			var orderids="";
-			
-			noofcart=cartdata.length;
-			index=0;
-			
-			for (let cart of cartdata) {
-			    var saveorderobj = {
-					  user_id: req.body.user_id,
-					  product_id : cart.product_id,
-					  quantity: cart.quantity,
-					  amount: cart.amount,
-					  discount_amount: cart.discount_amount,
-					  total_amount: cart.total_amount,
-					  status: cart.status,
-					  created: req.body.created,
-					  modified: req.body.modified
-				}
-				      
-			    orderModel.create(saveorderobj, function (err, result) {
-                               //console.log('order table result',result);
-                                if(err){
-                                    next(err);
-                                }else{
-                                   
-				     orderids = orderids+result._id+",";
-				     
-				     //console.log(index+orderids+noofcart+"amt"+result.total_amount);
+        shippingModel.findById(req.body.shipping_address_id).exec(function(err, data){
+            if(!data){
+                res.json({status: "error", message: "No shipping address found!!!", data: null});
+            }
+        });
 
-				     order_fullamount =  parseFloat(order_fullamount) + parseFloat(result.total_amount);
-				     
-				    order_fulldiscount_amount = 0;
-				    
-				      // ##################################
-				     index++;
-				     if (index === noofcart)
-				     { 
-				       
-					  order_fullamount = parseFloat(order_fullamount) +  parseFloat(req.body.delivery_amount);
-					  
-					  orderids = orderids.replace(/,\s*$/, "");
-					  var savetransobj = {
-					    user_id: req.body.user_id,
-					    order_ids : orderids,
-					    order_amount: order_fullamount,
-					    shipping_address_id :req.body.shipping_address_id,
-					    delivery_amount: req.body.delivery_amount,
-					    discount_amount: 0,
-					    created: req.body.created,
-					    modified: req.body.modified
-					}
-					
-					
-					transactionModel.create(savetransobj, function (err, result1) {
-						// console.log('Transaction table result',result1);
-						  if(err){
-						      next(err);
-						  }else{
-						    
-						    cartModel.find({user_id:req.body.user_id}).remove().exec(function(err, data) {
-						    });
-						   
-						   res.json({status: "success", message: "order placed successfully!!!", data: null});
-						  }
-					      });
-					
-				     }
-				    
-					
-				      // ##################################
+        cartModel.find({user_id:req.body.user_id}).exec(function(err, cartdata){
+            if(!cartdata){
+                res.json({status: "error", message: "Cart empty for this User!!!", data: null});
+            }else{
+                var order_fullamount = 0;
+                var order_fulldeliveryamount = 0;
+                var order_fulldiscount_amount = 0;
+                var orderids="";
+
+                noofcart=cartdata.length;
+                index = 0;
+
+                for (let cart of cartdata) {
+                    var saveorderobj = {
+                        user_id: req.body.user_id,
+                        product_id : cart.product_id,
+                        quantity: cart.quantity,
+                        amount: cart.amount,
+                        discount_amount: cart.discount_amount,
+                        total_amount: cart.total_amount,
+                        status: cart.status
+                    }
+
+                    orderModel.create(saveorderobj, function (err, result) {
+                        if(err){
+                            next(err);
+                        }else{
+                            orderids = orderids+result._id+",";
+                            order_fullamount =  parseFloat(order_fullamount) + parseFloat(result.total_amount);
+                            order_fulldiscount_amount = 0;
+                            index++;
+                            if (index === noofcart){
+                                order_fullamount = parseFloat(order_fullamount) +  parseFloat(req.body.delivery_amount);
+                                
+                                orderids = orderids.replace(/,\s*$/, "");
+                                var savetransobj = {
+                                    user_id: req.body.user_id,
+                                    order_ids : orderids,
+                                    order_amount: order_fullamount,
+                                    shipping_address_id :req.body.shipping_address_id,
+                                    delivery_amount: req.body.delivery_amount,
+                                    discount_amount: 0,
                                 }
-                            });
-			    
-			    
-			}
-                
-                
-		        
-		    }
 
-                });  
-      
-      },
-      
-      getAll: function(req, res, next) {
+                                transactionModel.create(savetransobj, function (err, result1) {
+                                    if(err){
+                                        next(err);
+                                    }else{
+                                        cartModel.find({user_id:req.body.user_id}).remove().exec(function(err, data) {
+                                        });
+                                        res.json({status: "success", message: "order placed successfully!!!", data: null});
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    },
+    getAll: function(req, res, next) {
         let ordersList = [];
-	
-	//.populate({path: 'category_id', select:['name', 'category']})
-
         transactionModel.find().populate({path: 'user_id', select:['name']}).sort({"created": 1}).exec(function(err, orders){
             if (err){
                 next(err);
@@ -191,23 +148,18 @@ module.exports = {
                         user_id: order.user_id,
                         order_ids: order.order_ids,
                         order_amount: order.order_amount,
-			shipping_address_id: order.shipping_address_id,
-			delivery_amount: order.delivery_amount,
-			discount_amount: order.discount_amount
-			
+                        shipping_address_id: order.shipping_address_id,
+                        delivery_amount: order.delivery_amount,
+                        discount_amount: order.discount_amount
+            
                     });
                 }
                 res.json({status:"success", message: "orders list found!!!", data:{orders: orders}});
-                
             }
         });
     },
-    
     getOrder: function(req, res, next) {
         let ordersList = [];
-	
-	//.populate({path: 'category_id', select:['name', 'category']})
-
         transactionModel.find({user_id:req.body.user_id}).sort({"created": 1}).exec(function(err, orders){
             if (err){
                 next(err);
@@ -222,17 +174,13 @@ module.exports = {
                         user_id: order.user_id,
                         order_ids: order.order_ids,
                         order_amount: order.order_amount,
-			shipping_address_id: order.shipping_address_id,
-			delivery_amount: order.delivery_amount,
-			discount_amount: order.discount_amount
-			
+                        shipping_address_id: order.shipping_address_id,
+                        delivery_amount: order.delivery_amount,
+                        discount_amount: order.discount_amount
                     });
                 }
                 res.json({status:"success", message: "orders list found!!!", data:{orders: orders}});
-                
             }
         });
     },
-      
-      
 }
