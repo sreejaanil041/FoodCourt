@@ -72,7 +72,7 @@ module.exports = {
             }
         });
 
-        cartModel.find({user_id:req.body.user_id}).exec(function(err, cartdata){
+        cartModel.find({user_id:req.body.userId}).exec(function(err, cartdata){
             if(!cartdata){
                 res.json({status: "error", message: "Cart empty for this User!!!", data: null});
             }else{
