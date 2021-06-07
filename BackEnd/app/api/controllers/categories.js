@@ -22,7 +22,7 @@ module.exports = {
                 next(err);
             } else{
                 for (let category of categories) {
-                    categoriesList.push({id: category._id, name: category.name, image: (category.image != null) ? "/files/"+category.image : null, description: category.name});
+                    categoriesList.push({id: category._id, category: category.category, name: category.name, image: (category.image != null) ? "/files/"+category.image : null, description: category.description});
                 }
                 res.json({status:"success", message: "Categories list found!!!", data:{categories: categoriesList}});
                 
