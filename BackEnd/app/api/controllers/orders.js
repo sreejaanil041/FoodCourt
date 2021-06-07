@@ -79,14 +79,14 @@ module.exports = {
                 var order_fullamount = 0;
                 var order_fulldeliveryamount = 0;
                 var order_fulldiscount_amount = 0;
-                var orderids="";
+                var orderids = "";
 
-                noofcart=cartdata.length;
+                noofcart = cartdata.length;
                 index = 0;
 
                 for (let cart of cartdata) {
                     var saveorderobj = {
-                        user_id: req.body.user_id,
+                        user_id: req.body.userId,
                         product_id : cart.product_id,
                         quantity: cart.quantity,
                         amount: cart.amount,
@@ -108,7 +108,7 @@ module.exports = {
                                 
                                 orderids = orderids.replace(/,\s*$/, "");
                                 var savetransobj = {
-                                    user_id: req.body.user_id,
+                                    user_id: req.body.userId,
                                     order_ids : orderids,
                                     order_amount: order_fullamount,
                                     shipping_address_id :req.body.shipping_address_id,
@@ -151,7 +151,6 @@ module.exports = {
                         shipping_address_id: order.shipping_address_id,
                         delivery_amount: order.delivery_amount,
                         discount_amount: order.discount_amount
-            
                     });
                 }
                 res.json({status:"success", message: "orders list found!!!", data:{orders: orders}});
@@ -160,7 +159,7 @@ module.exports = {
     },
     getOrder: function(req, res, next) {
         let ordersList = [];
-        transactionModel.find({user_id:req.body.user_id}).sort({"created": 1}).exec(function(err, orders){
+        transactionModel.find({user_id:req.body.userId}).sort({"created": 1}).exec(function(err, orders){
             if (err){
                 next(err);
             } else{
