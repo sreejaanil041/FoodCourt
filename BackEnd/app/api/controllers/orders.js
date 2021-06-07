@@ -182,4 +182,68 @@ module.exports = {
             }
         });
     },
+    
+     getStat: function(req, res, next) {
+   
+    const today = new Date().toISOString().slice(0, 10)
+   // console.log(today) // 2021-01-16
+
+      
+       transactionModel.aggregate(
+    // Pipeline
+    [
+    
+	{
+	  $match:
+	  {
+	  "created": { $gte: new Date(today), $lte: new Date(today) }
+	  }
+	},
+	
+	
+        // Stage 1
+        {
+            $project: {
+                created: {
+                    $dateToString: {
+                        format: "%Y-%m-%d",
+                        date: "$created"
+                    }
+                }
+
+            }
+        },
+
+        // Stage 2
+        {
+            $group: {
+                _id: {
+                    created: '$created'
+                },
+                comments: {
+                    $sum: 1
+                }
+            }
+        },
+
+        // Stage 3
+        {
+            $project: {
+                created: '$_id.created',
+                numberOfOrders: '$comments',
+                _id: 0
+            }
+        }
+
+    ]
+  ).exec(function(err, orders){
+	      if (err){
+		  next(err);
+	      } else{
+		  
+		  res.json({status:"success", message: "Todays order details : ", data:{orders: orders}});
+		  
+	      }
+	  });
+      },
 }

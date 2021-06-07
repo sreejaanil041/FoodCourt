@@ -16,4 +16,6 @@ router.get('/getallorders', orderController.getAll);
 
 router.post('/getorders', orderController.getOrder);
 
+router.get('/getStat', orderController.getStat);
+
 module.exports = router; 
