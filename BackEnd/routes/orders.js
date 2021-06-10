@@ -18,4 +18,6 @@ router.post('/getorders', orderController.getOrder);
 
 router.get('/getStat', orderController.getStat);
 
+router.post('/change-transaction-status', orderController.changeTransactionStatus);
+
 module.exports = router; 
