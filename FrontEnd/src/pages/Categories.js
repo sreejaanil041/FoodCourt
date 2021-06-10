@@ -30,23 +30,76 @@ class Categories extends React.Component
     }
     }
 
+     componentDidMount() { 
+       if(this.props.match.params.id!=undefined) 
+       {
+      axios.get(configpath +'/categories/' +this.props.match.params.id)  
+          .then(response => {  
+              this.setState({   
+                category: response.data.data.categories.category,   
+                name: response.data.data.categories.name,  
+                description: response.data.data.categories.description,  
+                image: response.data.data.categories.image });  
+  
+          })  
+          .catch(function (error) {  
+              console.log(error);  
+          })  
+    }  
+     }
       Categories=()=>{
-     let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
-     console.log('name: ',formdata );
-    axios.post(configpath +'/categories', formdata,{
+        let data = new FormData();
+data.append('image', this.state.image);
+data.append('category', this.state.category);
+data.append('name', this.state.name);
+data.append('description', this.state.description);
+
+    // let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
+     console.log('name: ',data );
+ if(this.props.match.params.id!=undefined) 
+       {
+
+      axios.put(configpath +'/categories/'+ this.props.match.params.id, data,{
       headers: {
       'Content-Type': 'application/json',
       //'Authorization': token
       }
-  })   
+  })  
+
   
 .then((response) => {
   console.log(response);
+if(response.data.status==='success'){  
+this.props.history.push('/admin/categories') 
+}
+  alert(response.data.message);  
+
 }, (error) => {
   console.log(error);
-}) 
-}  
+    }) 
+       }
+       else{
 
+    axios.post(configpath +'/categories', data,{
+      headers: {
+      'Content-Type': 'application/json',
+      //'Authorization': token
+      }
+  })  
+
+  
+.then((response) => {
+  console.log(response);
+if(response.data.status==='success'){  
+this.props.history.push('/admin/categories') 
+}
+  alert(response.data.message);  
+
+}, (error) => {
+  console.log(error);
+    }) 
+       }  
+     }
 handleChange= (e)=> {  
 this.setState({[e.target.name]:e.target.value});  
 }  

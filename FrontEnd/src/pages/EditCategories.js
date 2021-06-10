@@ -24,7 +24,7 @@ class EditCategories extends React.Component {
     }  
   
   componentDidMount() {  
-      axios.get(configpath + this.props.match.params.id)  
+      axios.get(configpath +'/categories/' +this.props.match.params.id)  
           .then(response => {  
               this.setState({   
                 category: response.data.category,   
@@ -63,14 +63,14 @@ class EditCategories extends React.Component {
     debugger;  
     e.preventDefault();  
     const obj = {  
-        id:this.props.match.params.id,  
+         
       category: this.state.category,  
       name: this.state.name,  
       description: this.state.description,  
      image: this.state.image  
   
     };  
-    axios.post(configpath, obj)  
+    axios.put(configpath+'/categories/'+this.props.match.params.id, obj)  
         .then(res => console.log(res.data));  
         debugger;  
         this.props.history.push('/Categorieslist')  

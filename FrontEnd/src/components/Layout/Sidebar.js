@@ -103,15 +103,15 @@ const pageContents = [
 ];
 
 const navItems = [
-  { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
-  
+  { to: '/admin', name: 'dashboard', exact: true, Icon: MdDashboard },
+  { to: '/admin/categories', name: 'Categories', exact: false, Icon: MdRestaurantMenu },
+   { to: '/admin/food-products', name: 'Food Products', exact: false, Icon: MdCake },
+   { to: '/admin/users', name: 'Users', exact: false, Icon: MdPeople },
+   { to: '/admin/orders', name: 'Orders', exact: false, Icon: MdShoppingCart },
+   
   { to: '/cards', name: 'cards', exact: false, Icon: MdWeb },
   { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
   { to: '/widgets', name: 'widgets', exact: false, Icon: MdWidgets },
-   { to: '/admin/ListCategories', name: 'Manage Categories', exact: false, Icon: MdRestaurantMenu },
-   { to: '/FoodList', name: 'Manage FoodProducts', exact: false, Icon: MdCake },
-   { to: '/userList', name: 'Manage User Details', exact: false, Icon: MdPeople },
-   { to: '/OrderList', name: 'Order', exact: false, Icon: MdShoppingCart },
    
 ];
 

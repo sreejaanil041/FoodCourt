@@ -8,18 +8,24 @@ import { configpath } from '../utils/config';
 class CategoriesList extends React.Component {
 
     constructor(props) {
-        super(props);
-        this.state = { data: [] };
+
+    
+super (props);
+  this.state = { data: [] };
+  this.DeleteCategories = this.DeleteCategories.bind(this);
+
     }
+
+
     componentDidMount() {
 
 
-        debugger;
+       
         axios.get(configpath + '/categories')
             .then(response => {
-                console.log({data: response.data.categories.size()});
-                this.setState({ data: response.data.categories });
-                debugger;
+               console.log('data', response.data.data);
+                this.setState({ data: response.data.data.categories });
+               
 
             })
             .catch(function(error) {
@@ -27,16 +33,18 @@ class CategoriesList extends React.Component {
             })
     }
 
-    DeleteCategories = (categoryId) => {
+    DeleteCategories (categoryId)  {
+console.log('hereeeeeeeeee')
         axios.delete(configpath + '/categories/' + categoryId)
-            .then(json => {
-                if (json.data.Status === 'Delete') {
-                    alert('Record deleted successfully!!');
+            .then(response => {
+                if (response.data.status === 'success') {
+                    this.setState({ data: this.state.data.filter(item => item.id !== categoryId)});
                 }
+                 alert(response.data.message);
             })
     }
     render() {
-
+console.log('stateeeeeeeee,',this.state.data)
         return ( <Page title = "CategoriesList"
             breadcrumbs = {
                 [{ name: 'CategoriesList', active: true }] }
@@ -54,9 +62,9 @@ class CategoriesList extends React.Component {
             <Col sm = {
                 { size: 10, offset: 2 } } >
             <Link className = "btn btn-secondary"
-            to = '/Categories' > Add Food Categories </Link> 
+            to = '/admin/add-category' > Add Food Categories </Link> 
             
-            </Col> 
+            </Col> a
             </FormGroup> 
             </Card> 
             < Card body >
@@ -65,7 +73,7 @@ class CategoriesList extends React.Component {
                 { marginTop: 10 } } >
             <thead >
             <tr >
-            <th > Category Id: </th>
+            <th > Serial No: </th>
             <th > Parent Category </th>
             <th > Category </th> 
             <th > Description </th> 
@@ -74,20 +82,26 @@ class CategoriesList extends React.Component {
             </tr> 
             </thead>
             <tbody > {
-                this.state.data.map(function(object, i) {
+              this.state.data!=undefined && this.state.data.length > 0 && this.state.data.map((object, i) =>{
+                  console.log('ca',object.id)
                     return (
                          < tr key = { i } >
+                         <td>{i+1}</td>
                         <td > { object.category } </td>  
                           <td > { object.name } </td>   
                            <td > { object.description }</td>  
-                            < td > { object.image } </td>  
+                            < td > {
+object.image != null ? <img src={configpath+object.image}/> : "No image"
+} </td>  
                              <td >
-                        < Link to = { "/edit/" + object.id }
-                        className = "btn btn-success" > Edit </Link>
-                           </td>   
-                           <td >
-                        <button type = "button"
-                        onClick = { this.DeleteCategories(object.id) }
+                        < Link to = { "/admin/category/edit/" + object.id }
+                        className = "btn btn-success mr-1"  > Edit </Link>
+
+                       
+                           
+                        <button 
+                       onClick = { () => {this.DeleteCategories(object.id)} }
+                       // onClick={this.handleSort }
                         className = "btn btn-danger" > Delete </button> 
                           </td>  
                            </tr>  

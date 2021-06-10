@@ -33,7 +33,7 @@ const UserListPage = React.lazy(() => import('pages/UserList'));
 const AddUserPage = React.lazy(() => import('pages/AddUser'));
 
 const getBasename = () => {
-  return `/${process.env.PUBLIC_URL.split('/').pop()}`;
+  return `/${process.env.PUBLIC_URL.split('/admin').pop()}`;
 };
 
 class App extends React.Component {
@@ -62,7 +62,23 @@ class App extends React.Component {
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
              
-                <Route exact path="/" component={DashboardPage} />
+                <Route exact path="/admin" component={DashboardPage} />
+                <Route exact path="/admin/add-food-product" component={FoodProductsPage} />
+                <Route exact path="/admin/food-products/edit/:id" component={FoodProductsPage} />  
+                <Route exact path="/admin/food-products" component={FoodListPage} />
+                <Route exact path="/admin/add-category" component={CategoriesPage} />
+                <Route exact path="/admin/category/edit/:id" component={CategoriesPage} />                
+                <Route exact path="/admin/categories" component={CategoriesListPage} />
+                 <Route exact path="/admin/orders" component={OrderListPage} />
+                 <Route exact path="/admin/users" component={UserListPage} />
+                 <Route exact path="/admin/add-user" component={AddUserPage} />
+
+
+
+
+
+
+
                 <Route exact path="/login-modal" component={AuthModalPage} />
                 <Route exact path="/buttons" component={ButtonPage} />
                 <Route exact path="/cards" component={CardPage} />
@@ -71,19 +87,13 @@ class App extends React.Component {
                 <Route exact path="/alerts" component={AlertPage} />
                 <Route exact path="/tables" component={TablePage} />
                 <Route exact path="/badges" component={BadgePage} />
-                <Route exact path="/FoodProducts" component={FoodProductsPage} />
-                <Route exact path="/FoodList" component={FoodListPage} />
-                <Route exact path="/Categories" component={CategoriesPage} />
-                <Route exact path="/admin/ListCategories" component={CategoriesListPage} />
-                 <Route exact path="/OrderList" component={OrderListPage} />
-                 <Route exact path="/UserList" component={UserListPage} />
-                 <Route exact path="/AddUser" component={AddUserPage} />
+                
                 <Route
                   exact
                   path="/button-groups"
                   component={ButtonGroupPage}
                 />
-                <Route exact path="/dropdowns" component={DropdownPage} />
+                <Route exact path="/dropdown" component={DropdownPage} />
                 <Route exact path="/progress" component={ProgressPage} />
                 <Route exact path="/modals" component={ModalPage} />
                 <Route exact path="/forms" component={FormPage} />

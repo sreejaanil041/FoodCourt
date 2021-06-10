@@ -11,14 +11,16 @@ class FoodList extends React.Component
   constructor(props) {  
       super(props);  
       this.state = {data: []};  
+      this.DeleteProduct = this.DeleteProduct.bind(this);
     } 
 
     componentDidMount(){  
-      debugger;  
-      axios.get( configpath + '/foodProducts')  
-        .then(response => {  
-          this.setState({ data: response.data.products });  
-          debugger;  
+     
+      axios.get( configpath + '/products')  
+        .then(response => { 
+          console.log("helloooooooooooooo") ;
+          this.setState({ data: response.data.data.products });  
+          
   
         })  
         .catch(function (error) {  
@@ -27,11 +29,13 @@ class FoodList extends React.Component
     }  
       
    DeleteProduct= (foodProductsId) =>{  
-     axios.delete( configpath + '/foodProducts/'+ foodProductsId)  
-    .then(json => {  
-    if(json.data.Status==='Delete'){  
+     axios.delete( configpath + '/products/'+ foodProductsId)  
+    .then(response => {  
+    if(response.data.status==='success'){ 
+      this.setState({ data: this.state.data.filter(item => item.id !== foodProductsId)});
+    } 
     alert('Record deleted successfully!!');  
-    }  
+    
     })  
     }   
 
@@ -53,7 +57,7 @@ render(){
                     <Card align ="right"> 
                     <FormGroup check row>
                   <Col sm={{ size: 10, offset: 2 }}>
-                    <Link className="btn btn-secondary" to='/FoodProducts' >Add  Food Product</Link>
+                    <Link className="btn btn-secondary" to='/admin/add-food-product' >Add  Food Product</Link>
                   </Col>
                 </FormGroup>
                     </Card>
@@ -61,7 +65,7 @@ render(){
                       <Table dark>
                         <thead>
                           <tr>
-                            <th>Product Id</th>
+                            <th>Serial No:</th>
                             <th>Product Name</th>
                             <th>Quantity</th>
                             <th>Availability</th>
@@ -70,36 +74,32 @@ render(){
                            
                           </tr>
                         </thead>
-                        <tbody>
-                          {this.state.data.map(function(object, i){  
+                        <tbody>{
+                        this.state.data!==undefined && this.state.data.length > 0 && this.state.data.map((object, i) =>{  
                           return (  
         <tr key ={i}>  
+        <td>  
+            {i+1}  
+          </td>
         <td>  
             {this.object.productname}  
           </td>
           <td>  
-            {this.object.categoryselect}  
+            {this.object.categoryid}  
           </td>  
             
           <td>  
-            {this.object.qty}  
+            {this.object.description}  
           </td>  
           <td>  
-            {this.object.price}  
+            {this.object.amount}  
           </td>  
           <td>  
-            {this.object.desc}  
-          </td>  
-            
-          <td>  
-            {this.object.image}  
-          </td>  
-          <td>  
-            {this.object.status}  
-          </td>  
-          <td>  
-          <Link to={"/edit/"+this.object.productid} className="btn btn-success">Edit</Link>  
-          </td>  
+            {this.object.discount_percentage}  
+          </td> 
+          <td> 
+          < Link to = { "/admin/food-products/edit/" + object.id } className = "btn btn-success mr-1"  > Edit </Link> 
+          
           <td>  
             <button type="button" onClick={this.DeleteProduct} className="btn btn-danger">Delete</button>  
           </td>  
