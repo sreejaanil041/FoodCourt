@@ -11,13 +11,14 @@ class UserList extends React.Component
   constructor(props) {  
       super(props);  
       this.state = {data: []};  
+      this.DeleteUser = this.DeleteUser.bind(this);
     }  
     componentDidMount(){  
-      debugger;  
+     
       axios.get(configpath + '/users/')  
         .then(response => {  
-          this.setState({ data: response.data.user });  
-          debugger;  
+          this.setState({ data: response.data.data.user });  
+         
   
         })  
         .catch(function (error) {  
@@ -25,13 +26,15 @@ class UserList extends React.Component
         })  
     }  
 
-   DeleteUser= (id) =>{  
-     axios.delete(configpath + '/users/'+id)  
-    .then(json => {  
-    if(json.data.Status==='Delete'){  
-    alert('Record deleted successfully!!');  
-    }  
-    })  
+   DeleteUser= (Uid) =>{ 
+     console.log('hereeeeeeeeee')
+        axios.delete(configpath + '/users/' + Uid)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    this.setState({ data: this.state.data.filter(item => item.id !== Uid)});
+                }
+                 alert(response.data.message);
+            }) 
     }  
   
 render(){
@@ -56,21 +59,24 @@ render(){
                 </FormGroup>
                     </Card>
                     <Card body>
-                      <Table dark>
+                      <table>
                         <thead>
                           <tr>
-                            <th>User Id</th>
+                            <th>Serial No:</th>
                             <th>User Name</th>
                             <th>email</th>
                             <th>Phone</th>
                             <th>Image</th>
-                            
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
-                        {this.state.data.map(function(object, i){  
+                        {this.state.data!==undefined && this.state.data.length > 0 && this.state.data.map(function(object, i){  
                            return (  
-        <tr key ={i}>  
+        <tr key ={i}> 
+        <td>  
+            {i+1}  
+          </td>  
           <td>  
             {this.object.name}  
           </td>  
@@ -82,19 +88,17 @@ render(){
             {this.object.phone_number}  
           </td>  
           <td>  
-            {this.object.image}  
+            {object.image != null ? <img src={configpath+object.image}/> : "No image"}
           </td>  
           <td>  
-          <Link to={"/edit/"+object.userid} className="btn btn-success">Edit</Link>  
-          </td>  
-          <td>  
-            <button type="button" onClick={this.DeleteUser} className="btn btn-danger">Delete</button>  
+          < Link to = { "/users/edit/" + object.id } className = "btn btn-success mr-1"  > Edit </Link>
+          <button onClick = { () => {this.DeleteUser(object.id)} }className = "btn btn-danger" > Delete </button> 
           </td>  
         </tr>  
     )  
      })  } 
                         </tbody>
-                      </Table>
+                      </table>
               </Card>
               </CardBody>
             </Card>

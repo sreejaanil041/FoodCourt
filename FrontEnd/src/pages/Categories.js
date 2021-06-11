@@ -31,7 +31,7 @@ class Categories extends React.Component
     }
 
      componentDidMount() { 
-       if(this.props.match.params.id!=undefined) 
+       if(this.props.match.params.id!==undefined) 
        {
       axios.get(configpath +'/categories/' +this.props.match.params.id)  
           .then(response => {  
@@ -56,7 +56,7 @@ data.append('description', this.state.description);
 
     // let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
      console.log('name: ',data );
- if(this.props.match.params.id!=undefined) 
+ if(this.props.match.params.id!==undefined) 
        {
 
       axios.put(configpath +'/categories/'+ this.props.match.params.id, data,{

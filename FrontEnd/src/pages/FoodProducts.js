@@ -10,7 +10,7 @@ import {
     Col,
     Form,
     FormGroup,
-    FormText,
+    
     Input,
     Label,
     Row,
@@ -31,7 +31,7 @@ class FoodProducts extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.match.params.id != undefined) {
+        if (this.props.match.params.id !== undefined) {
             axios.get(configpath + '/products/' + this.props.match.params.id)
                 .then(response => {
                     this.setState({
@@ -61,7 +61,7 @@ class FoodProducts extends React.Component {
 
         // let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
         console.log('name: ', data);
-        if (this.props.match.params.id != undefined) {
+        if (this.props.match.params.id !== undefined) {
             console.log("test 2");
             axios.put(configpath + '/products/' + this.props.match.params.id, data, {
                 headers: {
@@ -147,7 +147,7 @@ class FoodProducts extends React.Component {
             lg = { 12 }
             md = { 12 } >
             <Card >
-            <CardHeader > Add Food Products Form < /CardHeader> 
+            <CardHeader > Add Food Products Form </CardHeader> 
             <CardBody >
             <Form >
             <FormGroup row >
@@ -232,7 +232,7 @@ class FoodProducts extends React.Component {
             </Col> 
             </Row> 
             </Page>
-        );
+        )
     }
 }
 

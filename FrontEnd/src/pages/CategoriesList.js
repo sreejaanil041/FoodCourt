@@ -18,8 +18,6 @@ super (props);
 
 
     componentDidMount() {
-
-
        
         axios.get(configpath + '/categories')
             .then(response => {
@@ -82,7 +80,7 @@ console.log('stateeeeeeeee,',this.state.data)
             </tr> 
             </thead>
             <tbody > {
-              this.state.data!=undefined && this.state.data.length > 0 && this.state.data.map((object, i) =>{
+              this.state.data!==undefined && this.state.data.length > 0 && this.state.data.map((object, i) =>{
                   console.log('ca',object.id)
                     return (
                          < tr key = { i } >

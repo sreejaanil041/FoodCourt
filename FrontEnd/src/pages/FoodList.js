@@ -1,6 +1,6 @@
 import Page from 'components/Page';
 import React from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, FormGroup } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, FormGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {configpath} from '../utils/config'
@@ -62,14 +62,14 @@ render(){
                 </FormGroup>
                     </Card>
                     <Card body>
-                      <Table dark>
+                      <table>
                         <thead>
                           <tr>
                             <th>Serial No:</th>
                             <th>Product Name</th>
                             <th>Quantity</th>
-                            <th>Availability</th>
-                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>Discount</th>
                             <th>Actions</th>
                            
                           </tr>
@@ -100,14 +100,14 @@ render(){
           <td> 
           < Link to = { "/admin/food-products/edit/" + object.id } className = "btn btn-success mr-1"  > Edit </Link> 
           
-          <td>  
+          
             <button type="button" onClick={this.DeleteProduct} className="btn btn-danger">Delete</button>  
           </td>  
         </tr>  
     ) 
      })  } 
                         </tbody>
-                      </Table>
+                      </table>
               </Card>
               </CardBody>
             </Card>
