@@ -49,7 +49,9 @@ class Categories extends React.Component
      }
       Categories=()=>{
         let data = new FormData();
-data.append('image', this.state.image);
+        var imagedata = document.querySelector('input[type="file"]').files[0];
+
+data.append('image', imagedata);
 data.append('category', this.state.category);
 data.append('name', this.state.name);
 data.append('description', this.state.description);
@@ -119,7 +121,7 @@ this.setState({[e.target.name]:e.target.value});
           <Card>
             <CardHeader>Add Food Categories Form</CardHeader>
             <CardBody>
-              <Form enctype='multipart/form-data'>
+              <Form encType='multipart/form-data'>
                 <FormGroup row>
                   <Label for="ParentCategory" sm={2}>
                     Parent Category

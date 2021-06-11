@@ -89,7 +89,7 @@ console.log('stateeeeeeeee,',this.state.data)
                           <td > { object.name } </td>   
                            <td > { object.description }</td>  
                             < td > {
-object.image != null ? <img src={configpath+object.image}/> : "No image"
+object.image != null ? <img className="rounded-circle mb-2" src={configpath+object.image} style={{width: "50px", height: "50px"}}/> : "No image"
 } </td>  
                              <td >
                         < Link to = { "/admin/category/edit/" + object.id }
