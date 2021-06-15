@@ -2,15 +2,13 @@ const express = require('express');
 
 const logger = require('morgan');
 
-const movies = require('./routes/movies') ;
+const adminusers = require('./routes/adminusers');
 
 const users = require('./routes/users');
 
 const categories = require('./routes/categories');
 
 const products = require('./routes/products');
-
-const adminusers = require('./routes/adminusers');
 
 const shippings = require('./routes/shippings');
 
@@ -53,13 +51,11 @@ app.use('/users', users);// private route
 
 app.use('/adminusers', adminusers);// private route
 
-app.use('/movies', validateUser, movies);
-
 app.use('/categories', categories);
 
 app.use('/products', products);
 
-app.use('/shippings', shippings);// private route
+app.use('/shippings', validateUser, shippings);// private route
 
 app.use('/orders', orders);
 

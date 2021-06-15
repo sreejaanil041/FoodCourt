@@ -58,7 +58,7 @@ getById: function(req, res, next) {
  
  create: function(req, res, next) {
    
-      shippingModel.create({ name: req.body.name, user_id: req.body.user_id, address: req.body.address, landmark: req.body.landmark, phone_number: req.body.phone_number, 
+      shippingModel.create({ name: req.body.name, user_id: req.body.userId, address: req.body.address, landmark: req.body.landmark, phone_number: req.body.phone_number, 
 	alternative_phone_number: req.body.alternative_phone_number,
 	city: req.body.city,
 	state: req.body.state,
@@ -98,7 +98,7 @@ getById: function(req, res, next) {
  
  
  deleteById: function(req, res, next) {
-  shippingModel.findByIdAndRemove(req.params.shippingId, function(err, shippingInfo){
+  shippingModel.findByIdAndUpdate(req.params.shippingId, {deleted:1}, function(err, shippingInfo){
    if(err)
     next(err);
    else {

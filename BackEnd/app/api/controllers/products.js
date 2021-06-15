@@ -95,7 +95,7 @@ module.exports = {
     },
 
     deleteById: function(req, res, next) {
-        productModel.findByIdAndRemove(req.params.productId, function(err, productInfo){
+        productModel.findByIdAndUpdate(req.params.productId, {deleted:1}, function(err, productInfo){
             if(err){
                 next(err);
             }else {

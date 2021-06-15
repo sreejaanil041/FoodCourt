@@ -86,7 +86,7 @@ module.exports = {
     },
 
     deleteById: function(req, res, next) {
-        categoryModel.findByIdAndRemove(req.params.categoryId, function(err, categoryInfo){
+        categoryModel.findByIdAndUpdate(req.params.categoryId, {deleted:1}, function(err, categoryInfo){
             if(err){
                 next(err);
             }else {
