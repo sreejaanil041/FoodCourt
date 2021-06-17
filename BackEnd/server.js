@@ -53,7 +53,7 @@ app.use('/adminusers', adminusers);// private route
 
 app.use('/categories', validateUser, categories);
 
-app.use('/products', validateUser, products);
+app.use('/products', products);
 
 app.use('/shippings', validateUser, shippings);// private route
 
