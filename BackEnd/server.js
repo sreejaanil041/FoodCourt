@@ -51,13 +51,13 @@ app.use('/users', users);// private route
 
 app.use('/adminusers', adminusers);// private route
 
-app.use('/categories', categories);
+app.use('/categories', validateUser, categories);
 
-app.use('/products', products);
+app.use('/products', validateUser, products);
 
 app.use('/shippings', validateUser, shippings);// private route
 
-app.use('/orders', orders);
+app.use('/orders', validateUser, orders);
 
 app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);
