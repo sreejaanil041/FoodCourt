@@ -8,6 +8,7 @@ import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
+
 const AlertPage = React.lazy(() => import('pages/AlertPage'));
 const AuthModalPage = React.lazy(() => import('pages/AuthModalPage'));
 const BadgePage = React.lazy(() => import('pages/BadgePage'));
@@ -36,26 +37,32 @@ const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/admin').pop()}`;
 };
 
+
+const gettoken = () => {
+  return  localStorage.get('token');;
+};
 class App extends React.Component {
+  
   render() {
+    
     return (
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
             <LayoutRoute
               exact
-              path="/login"
+              path="/admin/login"
               layout={EmptyLayout}
               component={props => (
-                <AuthPage {...props} authState={STATE_LOGIN} />
+                <AuthPage {...props} authState={STATE_LOGIN} history={this.props.history} />
               )}
             />
             <LayoutRoute
               exact
-              path="/signup"
+              path="/admin/signup"
               layout={EmptyLayout}
               component={props => (
-                <AuthPage {...props} authState={STATE_SIGNUP} />
+                <AuthPage {...props} authState={STATE_SIGNUP} history={this.props.history}/>
               )}
             />
 
@@ -72,10 +79,6 @@ class App extends React.Component {
                  <Route exact path="/admin/orders" component={OrderListPage} />
                  <Route exact path="/admin/users" component={UserListPage} />
                  <Route exact path="/admin/add-user" component={AddUserPage} />
-
-
-
-
 
 
 

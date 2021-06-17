@@ -21,25 +21,30 @@ class FoodProducts extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            productname: '',
-            categoryid: '',
+            name: '',
+            category_id: '',
             description: '',
             amount: '',
-            discount_percentage: ''
+            discount_percentage: '',
+            order_count:'',
+            categories:[]
         }
         console.log("test");
     }
 
     componentDidMount() {
+        this.CategoryList();
         if (this.props.match.params.id !== undefined) {
             axios.get(configpath + '/products/' + this.props.match.params.id)
                 .then(response => {
+                    console.log(response.data.data)
                     this.setState({
-                        productname: response.data.data.products.name,
-                        categoryid: response.data.data.category_id._id,
-                        description: response.data.data.category_id.description,
+                        name: response.data.data.products.name,
+                       category_id: response.data.data.products.category_id,
+                        description: response.data.data.products.description,
                         amount: response.data.data.products.amount,
-                        discount_percentage: response.data.data.products.discount_percentage
+                        discount_percentage: response.data.data.products.discount_percentage,
+                        order_count: response.data.data.products.order_count
                     });
 
                 })
@@ -49,16 +54,27 @@ class FoodProducts extends React.Component {
         }
     }
 
+    CategoryList= ()=>
+    {
+      axios.get(configpath + '/categories')
+      .then(response => {
+         console.log('data', response.data.data);
+          this.setState({ categories: response.data.data.categories });               
+      })
+      .catch(function(error) {
+          console.log(error);
+      })
+    }
 
     FoodProducts = () => {
         console.log("test 1");
         let data = new FormData();
-        data.append('productname', this.state.productname);
-        data.append('categoryid', this.state.categoryid);
+        data.append('name', this.state.name);
+        data.append('category_id', this.state.category_id);
         data.append('description', this.state.description);
         data.append('amount', this.state.amount);
         data.append('discount_percentage', this.state.discount_percentage);
-
+        data.append('order_count', this.state.order_count);
         // let formdata = {category:this.state.category, name:this.state.name, description:this.state.description, image:this.state.image}
         console.log('name: ', data);
         if (this.props.match.params.id !== undefined) {
@@ -139,6 +155,7 @@ class FoodProducts extends React.Component {
     }
 
     render() {
+        console.log("render"+ this.state.category_id)
         return ( <Page className = "FoodProducts" title = "FoodProducts" breadcrumbs = {
                 [{ name: 'FoodProducts', active: true }] } >
 
@@ -157,13 +174,13 @@ class FoodProducts extends React.Component {
             Product Name </Label> 
             <Col sm = { 10 } >
             <Input type = "text"
-            name = "productname"
+            name = "name"
             onChange = { this.handleChange }
-            value = { this.state.productname }
+            value = { this.state.name }
             placeholder = "Enter a Food Item" />
             </Col>
             </FormGroup>
-
+{
             <FormGroup row >
             <Label
             for = "categorySelect"
@@ -171,11 +188,18 @@ class FoodProducts extends React.Component {
             Select Category </Label> 
             <Col sm = { 10 } >
             <Input type = "select"
-            name = "categoryid"
+            name = "category_id"
             onChange = { this.handleChange }
-            value = { this.state.categoryid }/>
+            value = { this.state.category_id }>
+                <option>Select</option>
+                 {this.state.categories.length > 0 && this.state.categories.map((object, i) =>{
+
+                     return(
+                         
+                <option key={i} value = {object.id}>{object.name}</option>)})}
+                </Input>
             </Col> 
-            </FormGroup>
+            </FormGroup> }
 
 
             <FormGroup row >
@@ -216,6 +240,19 @@ class FoodProducts extends React.Component {
             name = "discount_percentage"
             onChange = { this.handleChange }
             value = { this.state.discount_percentage }/> 
+            </Col> 
+            </FormGroup>
+
+            <FormGroup row >
+            <Label
+            for = "Order Count"
+            sm = { 2 } >
+            Order Count </Label> 
+            <Col sm = { 10 } >
+            <Input type = "text"
+            name = "order_count"
+            onChange = { this.handleChange }
+            value = { this.state.order_count }/> 
             </Col> 
             </FormGroup>
 

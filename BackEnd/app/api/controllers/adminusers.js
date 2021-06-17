@@ -3,6 +3,7 @@ const adminuserModel = require('../models/adminusers');
 const bcrypt = require('bcrypt'); 
 
 const jwt = require('jsonwebtoken');
+const { request } = require('express');
 
 /*
 first_name
@@ -19,6 +20,7 @@ modified
 module.exports = {
 
   create: function(req, res, next) {
+    console.log('create:', req.body);
   adminuserModel.findOne({email:req.body.email}, function(err, userInfo)
   {
     

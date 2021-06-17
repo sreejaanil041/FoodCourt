@@ -6,6 +6,7 @@ import {
   MdLoyalty,
 } from 'react-icons/md';
 import NotificationSystem from 'react-notification-system';
+import { Redirect } from 'react-router';
 import { NOTIFICATION_SYSTEM_STYLE } from 'utils/constants';
 
 class MainLayout extends React.Component {
@@ -22,6 +23,12 @@ class MainLayout extends React.Component {
   }
 
   componentDidMount() {
+    if(!localStorage.getItem('token'))
+    {
+       // <Redirect to ='/admin/login' />
+
+       window.location.href='/admin/login';
+    }
     this.checkBreakpoint(this.props.breakpoint);
 
     setTimeout(() => {
@@ -31,23 +38,23 @@ class MainLayout extends React.Component {
 
       this.notificationSystem.addNotification({
         title: <MdImportantDevices />,
-        message: 'Welome to Reduction Admin!',
+        message: 'Welome Admin!',
         level: 'info',
       });
     }, 1500);
 
-    setTimeout(() => {
-      if (!this.notificationSystem) {
-        return;
-      }
+    // setTimeout(() => {
+    //   if (!this.notificationSystem) {
+    //     return;
+    //   }
 
-      this.notificationSystem.addNotification({
-        title: <MdLoyalty />,
-        message:
-          'Reduction is carefully designed template powered by React and Bootstrap4!',
-        level: 'info',
-      });
-    }, 2500);
+    //   this.notificationSystem.addNotification({
+    //     title: <MdLoyalty />,
+    //     message:
+    //       'Reduction is carefully designed template powered by React and Bootstrap4!',
+    //     level: 'info',
+    //   });
+    // }, 2500);
   }
 
   // close sidebar when

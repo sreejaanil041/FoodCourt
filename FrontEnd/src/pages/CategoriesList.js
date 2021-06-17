@@ -22,9 +22,7 @@ super (props);
         axios.get(configpath + '/categories')
             .then(response => {
                console.log('data', response.data.data);
-                this.setState({ data: response.data.data.categories });
-               
-
+                this.setState({ data: response.data.data.categories });               
             })
             .catch(function(error) {
                 console.log(error);
@@ -59,10 +57,10 @@ console.log('stateeeeeeeee,',this.state.data)
             < FormGroup check row >
             <Col sm = {
                 { size: 10, offset: 2 } } >
-            <Link className = "btn btn-secondary"
-            to = '/admin/add-category' > Add Food Categories </Link> 
+            <Link className = "btn btn-secondary mt-2 mr-2" 
+            to = '/admin/add-category' > Add Food Category </Link> 
             
-            </Col> a
+            </Col> 
             </FormGroup> 
             </Card> 
             < Card body >
@@ -72,8 +70,8 @@ console.log('stateeeeeeeee,',this.state.data)
             <thead >
             <tr >
             <th > Serial No: </th>
-            <th > Parent Category </th>
-            <th > Category </th> 
+            <th > Category </th>
+            <th > Sub Category </th> 
             <th > Description </th> 
             <th > Image </th>
              <th > Actions </th>

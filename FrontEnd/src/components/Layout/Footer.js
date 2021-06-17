@@ -9,7 +9,7 @@ const Footer = () => {
     <Navbar>
       <Nav navbar>
         <NavItem>
-          Visit us on our site<sourcelink>www.foodcourt.com</sourcelink>
+          Visit us on our site <sourcelink>www.foodcourt.com</sourcelink>
         </NavItem>
       </Nav>
     </Navbar>

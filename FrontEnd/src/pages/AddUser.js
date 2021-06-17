@@ -1,7 +1,8 @@
 import Page from 'components/Page';
 import React from 'react';
 import axios from 'axios';
-import {configpath} from '../utils/config'
+import {configpath} from '../utils/config';
+import {useHistory} from 'react-router-dom';
 
 import {
   Button,
@@ -67,7 +68,7 @@ data.append('image', this.state.image);
      console.log('name: ',data );
  if(this.props.match.params.id!==undefined) 
        {
-      axios.put(configpath +'/users/register/'+ this.props.match.params.id, data,{
+      axios.put(configpath +'/users/'+ this.props.match.params.id, data,{
       headers: {
       'Content-Type': 'application/json',
       //'Authorization': token
@@ -78,7 +79,7 @@ data.append('image', this.state.image);
 .then((response) => {
   console.log(response);
 if(response.data.status==='success'){  
-this.props.history.push('/users/') 
+this.props.history.push('/admin/users/') 
 }
   alert(response.data.message);  
 
@@ -88,7 +89,7 @@ this.props.history.push('/users/')
        }
        else{
 
-    axios.post(configpath +'/users/register/', data,{
+    axios.post(configpath +'/users/', data,{
       headers: {
       'Content-Type': 'application/json',
       //'Authorization': token
@@ -99,7 +100,7 @@ this.props.history.push('/users/')
 .then((response) => {
   console.log(response);
 if(response.data.status==='success'){  
-this.props.history.push('/users/') 
+this.props.history.push('admin/users/') 
 }
   alert(response.data.message);  
 

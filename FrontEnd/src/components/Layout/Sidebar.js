@@ -93,7 +93,7 @@ const navContents = [
 ];
 
 const pageContents = [
-  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
+  { to: '/admin/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
   {
     to: '/login-modal',
     name: 'login modal',

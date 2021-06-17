@@ -54,7 +54,7 @@ render(){
                     <Card align ="right"> 
                     <FormGroup check row>
                   <Col sm={{ size: 10, offset: 2 }}>
-                    <Link className = "btn btn-secondary" to='/AddUser' >Add User</Link>
+                    <Link className = "btn btn-secondary" to='/admin/add-user' >Add User</Link>
                   </Col>
                 </FormGroup>
                     </Card>

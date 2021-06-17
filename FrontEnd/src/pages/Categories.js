@@ -64,6 +64,7 @@ data.append('description', this.state.description);
       axios.put(configpath +'/categories/'+ this.props.match.params.id, data,{
       headers: {
       'Content-Type': 'application/json',
+      'x-access-token' : localStorage.getItem('token')
       //'Authorization': token
       }
   })  

@@ -4,7 +4,7 @@ import Notifications from 'components/Notifications';
 import SearchInput from 'components/SearchInput';
 import { notificationsData } from 'demos/header';
 import withBadge from 'hocs/withBadge';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MdClearAll,
   MdExitToApp,
@@ -46,11 +46,18 @@ const MdNotificationsActiveWithBadge = withBadge({
 })(MdNotificationsActive);
 
 class Header extends React.Component {
+ 
   state = {
     isOpenNotificationPopover: false,
     isNotificationConfirmed: false,
     isOpenUserCardPopover: false,
+    adminuser:'',
   };
+
+  componentDidMount()
+  {
+    this.handleAdminuser();
+  }
 
   toggleNotificationPopover = () => {
     this.setState({
@@ -75,8 +82,28 @@ class Header extends React.Component {
     document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
   };
 
+  handleAdminuser=()=>{
+   
+      
+        var a = localStorage.getItem('data');  
+        console.log("admin"+ a);
+        if(a!==undefined)
+        {
+        var b = JSON.parse(a);  
+        this.setState({adminuser:b});
+        console.log("name:"+b.first_name);  
+        console.log(this.state.adminuser.first_name);  
+        }
+   
+  }
+
+
   render() {
-    const { isNotificationConfirmed } = this.state;
+    const { isNotificationConfirmed,adminuser } = this.state;
+
+     
+       
+   
 
     return (
       <Navbar light expand className={bem.b('bg-white')}>
@@ -89,6 +116,7 @@ class Header extends React.Component {
           <SearchInput />
         </Nav>
 
+        
         <Nav navbar className={bem.e('nav-right')}>
           <NavItem className="d-inline-flex">
             <NavLink id="Popover1" className="position-relative">
@@ -135,13 +163,13 @@ class Header extends React.Component {
             >
               <PopoverBody className="p-0 border-light">
                 <UserCard
-                  title="Jane"
-                  subtitle="jane@jane.com"
+                  title={adminuser!==''? adminuser.first_name+ ' ' +adminuser.last_name : ''}
+                  subtitle={adminuser!==''? adminuser.email : ''}
                   text="Last updated 3 mins ago"
                   className="border-light"
                 >
                   <ListGroup flush>
-                    <ListGroupItem tag="button" action className="border-light">
+                    {/* <ListGroupItem tag="button" action className="border-light">
                       <MdPersonPin /> Profile
                     </ListGroupItem>
                     <ListGroupItem tag="button" action className="border-light">
@@ -155,7 +183,7 @@ class Header extends React.Component {
                     </ListGroupItem>
                     <ListGroupItem tag="button" action className="border-light">
                       <MdHelp /> Help
-                    </ListGroupItem>
+                    </ListGroupItem> */}
                     <ListGroupItem tag="button" action className="border-light">
                       <MdExitToApp /> Signout
                     </ListGroupItem>

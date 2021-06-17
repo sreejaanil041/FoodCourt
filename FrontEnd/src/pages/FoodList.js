@@ -11,6 +11,7 @@ class FoodList extends React.Component
   constructor(props) {  
       super(props);  
       this.state = {data: []};  
+
       this.DeleteProduct = this.DeleteProduct.bind(this);
     } 
 
@@ -18,10 +19,8 @@ class FoodList extends React.Component
      
       axios.get( configpath + '/products')  
         .then(response => { 
-          console.log("helloooooooooooooo") ;
-          this.setState({ data: response.data.data.products });  
-          
-  
+          console.log("helloooooooooooooo"+ response.data.data.products) ;
+          this.setState({ data: response.data.data.products });    
         })  
         .catch(function (error) {  
           console.log(error);  
@@ -39,6 +38,7 @@ class FoodList extends React.Component
     })  
     }   
 
+   
 render(){
 
  return (
@@ -52,7 +52,7 @@ render(){
 
                 <Col>
                 <Card className="mb-3" >
-                    <CardHeader>Food List</CardHeader>
+                    <CardHeader>List of Food Products</CardHeader>
                     <CardBody>
                     <Card align ="right"> 
                     <FormGroup check row>
@@ -66,47 +66,38 @@ render(){
                         <thead>
                           <tr>
                             <th>Serial No:</th>
+                            <th>id</th>
+                            <th>Category</th>
                             <th>Product Name</th>
-                            <th>Quantity</th>
+
+                            <th>Description</th>
                             <th>Amount</th>
                             <th>Discount</th>
+                            <th>Order Count</th>
                             <th>Actions</th>
                            
-                          </tr>
-                        </thead>
-                        <tbody>{
-                        this.state.data!==undefined && this.state.data.length > 0 && this.state.data.map((object, i) =>{  
-                          return (  
+                            </tr>
+                          </thead>
+                        <tbody> {
+              this.state.data!==undefined && this.state.data.length > 0 && this.state.data.map((object, i) =>{
+       return (  
         <tr key ={i}>  
-        <td>  
-            {i+1}  
-          </td>
-        <td>  
-            {this.object.productname}  
-          </td>
-          <td>  
-            {this.object.categoryid}  
-          </td>  
-            
-          <td>  
-            {this.object.description}  
-          </td>  
-          <td>  
-            {this.object.amount}  
-          </td>  
-          <td>  
-            {this.object.discount_percentage}  
-          </td> 
-          <td> 
-          < Link to = { "/admin/food-products/edit/" + object.id } className = "btn btn-success mr-1"  > Edit </Link> 
-          
-          
-            <button type="button" onClick={this.DeleteProduct} className="btn btn-danger">Delete</button>  
+        <td>  {i+1} </td>
+        <td>{object._id}</td>
+        <td> { object.category_id !== undefined ? object.category_id.name : null} </td>  
+        <td>  {object.name}  </td>
+         
+         <td> {object.description} </td>  
+         <td>  {object.amount}  </td>  
+         <td>  {object.discount_percentage} </td> 
+         <td> {object.order_count} </td>  
+         <td> < Link to = { "/admin/food-products/edit/" + object._id } className = "btn btn-success mr-1"  > Edit </Link> 
+             <button type="button" onClick={()=>{this.DeleteProduct(object._id)}} className="btn btn-danger">Delete</button>  
           </td>  
         </tr>  
     ) 
      })  } 
-                        </tbody>
+                    </tbody>
                       </table>
               </Card>
               </CardBody>

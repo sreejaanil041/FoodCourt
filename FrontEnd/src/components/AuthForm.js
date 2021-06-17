@@ -1,9 +1,28 @@
 import logo200Image from 'assets/img/logo/logo_200.png';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, FormGroup, Input, Label,Col } from 'reactstrap';
+import axios from 'axios';
+import {configpath} from '../utils/config';
 
 class AuthForm extends React.Component {
+
+  constructor(props)
+  {
+    super(props);
+    this.state={
+      first_name:'',
+      last_name:'',
+      email:'',
+      password:'',
+      confirm_password :'',
+      phone_number:''
+    }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+
+  }
   get isLogin() {
     return this.props.authState === STATE_LOGIN;
   }
@@ -18,10 +37,80 @@ class AuthForm extends React.Component {
     this.props.onChangeAuthState(authState);
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-  };
+  handleLogin = () =>{
+    console.log("login");
+    let data={email: this.state.email,
+    password: this.state.password};
 
+    axios.post(configpath +'/adminusers/authenticate', data,{
+      headers: {
+      'Content-Type': 'application/json',
+      //'Authorization': token
+      }
+    })  
+    
+    
+    .then((response) => {
+    console.log(response.data.data.user);
+    const serializedState = JSON.stringify(response.data.data.user);  
+               localStorage.setItem('data', serializedState);  
+               localStorage.setItem('token', response.data.data.token);   
+                console.log("Admin:",serializedState)  
+                const adminuser =response.data.data.user;  
+                console.log(response.data.message);  
+    if(response.data.status==='success'){  
+    window.location.href=('/admin');
+    //this.props.history.push('/admin');
+    }
+    alert(response.data.message);  
+    
+    }, (error) => {
+    console.log("hai"+error);
+    }) 
+
+
+  }
+
+  handleSubmit = () => {
+    console.log("hello");
+   // event.preventDefault();
+   let data = {first_name: this.state.first_name,
+    last_name: this.state.last_name,
+    email: this.state.email,
+    password: this.state.password,
+    phone_number:this.state.phone_number};
+   console.log(data);
+//    data.append('first_name', this.state.first_name);
+// data.append('last_name', this.state.last_name);
+// data.append('email', this.state.email);
+// data.append('password', this.state.password);
+// data.append('phone_number', this.state.phone_number);
+
+axios.post(configpath +'/adminusers/create', data,{
+  headers: {
+  'Content-Type': 'application/json',
+  //'Authorization': token
+  }
+})  
+
+
+.then((response) => {
+console.log(response);
+if(response.data.status==='success'){  
+window.location.href=('/admin/login');
+}
+alert(response.data.message);  
+
+}, (error) => {
+console.log("hai"+error);
+}) 
+   }  
+  
+
+  handleChange= (e)=> {  
+    this.setState({[e.target.name]:e.target.value});  
+    }  
+    
   renderButtonText() {
     const { buttonText } = this.props;
 
@@ -61,21 +150,96 @@ class AuthForm extends React.Component {
               onClick={onLogoClick}
             />
           </div>
+
         )}
-        <FormGroup>
-          <Label for={usernameLabel}>{usernameLabel}</Label>
-          <Input {...usernameInputProps} />
-        </FormGroup>
-        <FormGroup>
-          <Label for={passwordLabel}>{passwordLabel}</Label>
-          <Input {...passwordInputProps} />
-        </FormGroup>
         {this.isSignup && (
-          <FormGroup>
-            <Label for={confirmPasswordLabel}>{confirmPasswordLabel}</Label>
-            <Input {...confirmPasswordInputProps} />
-          </FormGroup>
+         <FormGroup row>
+                  <Label for="First Name" sm={12}>
+                    First Name
+                  </Label>
+                  <Col sm={12}>
+                    <Input
+                      type="text"
+                      name="first_name"
+                       onChange={this.handleChange} value={this.state.first_name}
+                      placeholder="Enter your First Name"
+                    />
+                  </Col>
+                </FormGroup>
         )}
+
+{this.isSignup && (
+                <FormGroup row>
+                  <Label for="Last Name" sm={2}>
+                    Last Name
+                  </Label>
+                  <Col sm={10}>
+                    <Input
+                      type="text"
+                      name="last_name"
+                       onChange={this.handleChange} value={this.state.last_name}
+                      placeholder="Enter your Last Name"
+                    />
+                  </Col>
+                </FormGroup>
+)}
+                <FormGroup row>
+                  <Label for="email" sm={2}>
+                   email
+                  </Label>
+                  <Col sm={10}>
+                    <Input
+                      type="text"
+                      name="email"
+                       onChange={this.handleChange} value={this.state.email}
+                      placeholder="Enter your email"
+                    />
+                  </Col>
+                </FormGroup>
+                <FormGroup row>
+                  <Label for="password" sm={2}>
+                Password
+                  </Label>
+                  <Col sm={10}>
+                    <Input
+                      type="password"
+                      name="password"
+                       onChange={this.handleChange} value={this.state.password}
+                      placeholder="Enter the password"
+                    />
+                  </Col>
+                </FormGroup>
+        {this.isSignup && (
+          <FormGroup row>
+          <Label for="confirm_password" sm={2}>
+           Confirm Password
+          </Label>
+          <Col sm={10}>
+            <Input
+              type="password"
+              name="confirm_password"
+               onChange={this.handleChange} value={this.state.confirm_password}
+              placeholder="Confirm your password"
+            />
+          </Col>
+        </FormGroup>
+        )}
+
+{this.isSignup && (
+         <FormGroup row>
+                  <Label for="phone_number" sm={2}>
+                    Phone Number
+                  </Label>
+                  <Col sm={10}>
+                    <Input
+                      type="text"
+                      name="phone_number"
+                       onChange={this.handleChange} value={this.state.phone_number}
+                      placeholder="Enter your Phone Number"
+                    />
+                  </Col>
+                </FormGroup>
+)}
         <FormGroup check>
           <Label check>
             <Input type="checkbox" />{' '}
@@ -87,7 +251,7 @@ class AuthForm extends React.Component {
           size="lg"
           className="bg-gradient-theme-left border-0"
           block
-          onClick={this.handleSubmit}>
+          onClick={this.isSignup ? this.handleSubmit : this.handleLogin }>
           {this.renderButtonText()}
         </Button>
 
@@ -95,11 +259,11 @@ class AuthForm extends React.Component {
           <h6>or</h6>
           <h6>
             {this.isSignup ? (
-              <a href="#login" onClick={this.changeAuthState(STATE_LOGIN)}>
+              <a href="/admin/login" onClick={this.changeAuthState(STATE_LOGIN)}>
                 Login
               </a>
             ) : (
-              <a href="#signup" onClick={this.changeAuthState(STATE_SIGNUP)}>
+              <a href="/admin/signup" onClick={this.changeAuthState(STATE_SIGNUP)}>
                 Signup
               </a>
             )}
