@@ -17,7 +17,7 @@ class FoodList extends React.Component
 
     componentDidMount(){  
      
-      axios.get( configpath + '/products')  
+      axios.get( configpath + '/products/admin')  
         .then(response => { 
           console.log("helloooooooooooooo"+ response.data.data.products) ;
           this.setState({ data: response.data.data.products });    

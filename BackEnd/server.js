@@ -51,9 +51,9 @@ app.use('/users', users);// private route
 
 app.use('/adminusers', adminusers);// private route
 
-app.use('/categories', validateUser, categories);
+app.use('/categories', validateadminUser, categories);
 
-app.use('/products', validateUser, products);
+app.use('/products', validateadminUser, products);
 
 app.use('/shippings', validateUser, shippings);// private route
 
@@ -66,35 +66,33 @@ app.get('/favicon.ico', function(req, res) {
 
 
 function validateadminUser(req, res, next) {
-  jwt.verify(req.headers['x-access-token'], req.app.get('secretKey1'), function(err, decoded) {
-    if (err) {
-      res.json({status:"error", message: err.message, data:null});
+    if(req._parsedUrl.path == "/products" && req.method == "GET"){
+        next();
     }else{
-      // add user id to request
-      req.body.userId = decoded.id;
-      next();
+        jwt.verify(req.headers['x-access-token'], req.app.get('secretKey1'), function(err, decoded) {
+            if (err) {
+            res.json({status:"error", message: err.message, data:null});
+            }else{
+            // add user id to request
+            req.body.userId = decoded.id;
+            next();
+            }
+        });
     }
-  });
-  
 }// express doesn't consider not found 404 as an error so we need to handle 404 explicitly
 
 
 
 function validateUser(req, res, next) {
-    console.log('req.path ',req._parsedUrl.path )
-    if(req._parsedUrl.path == "/products" && req.method == "GET"){
-        next();
-    }else{
-        jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function(err, decoded) {
-            if (err) {
-                res.json({status:"error", message: err.message, data:null});
-            }else{
-                // add user id to request
-                req.body.userId = decoded.id;
-                next();
-            }
-        });
-    }
+    jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function(err, decoded) {
+        if (err) {
+            res.json({status:"error", message: err.message, data:null});
+        }else{
+            // add user id to request
+            req.body.userId = decoded.id;
+            next();
+        }
+    });
 }// express doesn't consider not found 404 as an error so we need to handle 404 explicitly
 
 
