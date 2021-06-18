@@ -97,6 +97,10 @@ class Header extends React.Component {
    
   }
 
+   logout = event => {
+   localStorage.clear();
+   window.location.href = '/admin/login';
+   }
 
   render() {
     const { isNotificationConfirmed,adminuser } = this.state;
@@ -185,7 +189,7 @@ class Header extends React.Component {
                       <MdHelp /> Help
                     </ListGroupItem> */}
                     <ListGroupItem tag="button" action className="border-light">
-                      <MdExitToApp /> Signout
+                      <MdExitToApp /> <a href="#" onClick={this.logout} >Signout</a> 
                     </ListGroupItem>
                   </ListGroup>
                 </UserCard>

@@ -45,6 +45,7 @@ class AuthForm extends React.Component {
     axios.post(configpath +'/adminusers/authenticate', data,{
       headers: {
       'Content-Type': 'application/json',
+      
       //'Authorization': token
       }
     })  
@@ -89,6 +90,7 @@ class AuthForm extends React.Component {
 axios.post(configpath +'/adminusers/create', data,{
   headers: {
   'Content-Type': 'application/json',
+  
   //'Authorization': token
   }
 })  
@@ -170,10 +172,10 @@ console.log("hai"+error);
 
 {this.isSignup && (
                 <FormGroup row>
-                  <Label for="Last Name" sm={2}>
+                  <Label for="Last Name" sm={12}>
                     Last Name
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={12}>
                     <Input
                       type="text"
                       name="last_name"
@@ -184,10 +186,10 @@ console.log("hai"+error);
                 </FormGroup>
 )}
                 <FormGroup row>
-                  <Label for="email" sm={2}>
+                  <Label for="email" sm={12}>
                    email
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={12}>
                     <Input
                       type="text"
                       name="email"
@@ -197,10 +199,10 @@ console.log("hai"+error);
                   </Col>
                 </FormGroup>
                 <FormGroup row>
-                  <Label for="password" sm={2}>
+                  <Label for="password" sm={12}>
                 Password
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={12}>
                     <Input
                       type="password"
                       name="password"
@@ -211,10 +213,10 @@ console.log("hai"+error);
                 </FormGroup>
         {this.isSignup && (
           <FormGroup row>
-          <Label for="confirm_password" sm={2}>
+          <Label for="confirm_password" sm={12}>
            Confirm Password
           </Label>
-          <Col sm={10}>
+          <Col sm={12}>
             <Input
               type="password"
               name="confirm_password"
@@ -227,10 +229,10 @@ console.log("hai"+error);
 
 {this.isSignup && (
          <FormGroup row>
-                  <Label for="phone_number" sm={2}>
+                  <Label for="phone_number" sm={12}>
                     Phone Number
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={12}>
                     <Input
                       type="text"
                       name="phone_number"

@@ -15,6 +15,7 @@ import {
   Label,
   Row,
 } from 'reactstrap';
+import Table from 'reactstrap/lib/Table';
 
 class Categories extends React.Component
 {
@@ -33,7 +34,12 @@ class Categories extends React.Component
      componentDidMount() { 
        if(this.props.match.params.id!==undefined) 
        {
-      axios.get(configpath +'/categories/' +this.props.match.params.id)  
+      axios.get(configpath +'/categories/' +this.props.match.params.id,{
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token' : localStorage.getItem('token')
+          }
+      })  
           .then(response => {  
               this.setState({   
                 category: response.data.data.categories.category,   
@@ -60,12 +66,10 @@ data.append('description', this.state.description);
      console.log('name: ',data );
  if(this.props.match.params.id!==undefined) 
        {
-
       axios.put(configpath +'/categories/'+ this.props.match.params.id, data,{
       headers: {
       'Content-Type': 'application/json',
       'x-access-token' : localStorage.getItem('token')
-      //'Authorization': token
       }
   })  
 
@@ -86,7 +90,7 @@ this.props.history.push('/admin/categories')
     axios.post(configpath +'/categories', data,{
       headers: {
       'Content-Type': 'application/json',
-      //'Authorization': token
+      'x-access-token' : localStorage.getItem('token')
       }
   })  
 
@@ -110,24 +114,24 @@ this.setState({[e.target.name]:e.target.value});
     render()
     {
         return(
-
- <Page
+         
+ <Page      
         className="FoodCategories"
-        title="FoodCategories"
+        title="Food Categories"
         breadcrumbs={[{ name: 'FoodCategories', active: true }]}
       >
  
-      <Row>
+      <Row allign ="center">
     <Col xl={6} lg={12} md={12}>
           <Card>
             <CardHeader>Add Food Categories Form</CardHeader>
             <CardBody>
               <Form encType='multipart/form-data'>
                 <FormGroup row>
-                  <Label for="ParentCategory" sm={2}>
-                    Parent Category
+                  <Label for="ParentCategory" sm={12}>
+                    Category
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={12}>
                     <Input
                       type="text"
                       name="category"
@@ -138,10 +142,10 @@ this.setState({[e.target.name]:e.target.value});
                 </FormGroup>
 
                 <FormGroup row>
-                  <Label for="Category" sm={2}>
-                   Category
+                  <Label for="Category" sm={12}>
+                   Sub-Category
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={12}>
                     <Input
                       type="text"
                       name="name"
@@ -158,10 +162,10 @@ this.setState({[e.target.name]:e.target.value});
                 </FormGroup>
 
                 <FormGroup row>
-                  <Label for="CategoryImage" sm={2}>
+                  <Label for="CategoryImage" sm={12}>
                     Category Image
                   </Label>
-                  <Col sm={10}>
+                  <Col sm={12}>
                     <Input type="file" name="image" onChange={this.handleChange} value={this.state.image}/>
                      
                     <FormText color="muted">
@@ -183,7 +187,7 @@ this.setState({[e.target.name]:e.target.value});
                 </Col>
       </Row>
     </Page>
-
+   
         );
     }
 }
