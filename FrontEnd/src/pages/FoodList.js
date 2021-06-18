@@ -16,10 +16,14 @@ class FoodList extends React.Component
     } 
 
     componentDidMount(){  
-     
-      axios.get( configpath + '/products/admin')  
+      axios.get( configpath + '/products/admin',{
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token' : localStorage.getItem('token')
+          }
+      }
+      )
         .then(response => { 
-          console.log("helloooooooooooooo"+ response.data.data.products) ;
           this.setState({ data: response.data.data.products });    
         })  
         .catch(function (error) {  
@@ -28,7 +32,11 @@ class FoodList extends React.Component
     }  
       
    DeleteProduct= (foodProductsId) =>{  
-     axios.delete( configpath + '/products/'+ foodProductsId)  
+     axios.delete( configpath + '/products/'+ foodProductsId, {
+       headers: {
+      'Content-Type': 'application/json',
+      'x-access-token' : localStorage.getItem('token')
+      }})  
     .then(response => {  
     if(response.data.status==='success'){ 
       this.setState({ data: this.state.data.filter(item => item.id !== foodProductsId)});
@@ -57,7 +65,7 @@ render(){
                     <Card align ="right"> 
                     <FormGroup check row>
                   <Col sm={{ size: 10, offset: 2 }}>
-                    <Link className="btn btn-secondary" to='/admin/add-food-product' >Add  Food Product</Link>
+                    <Link className="btn btn-secondary" to='/admin/add-food-product' >Add Food Product</Link>
                   </Col>
                 </FormGroup>
                     </Card>
@@ -69,7 +77,6 @@ render(){
                             <th>id</th>
                             <th>Category</th>
                             <th>Product Name</th>
-
                             <th>Description</th>
                             <th>Amount</th>
                             <th>Discount</th>
@@ -86,7 +93,6 @@ render(){
         <td>{object._id}</td>
         <td> { object.category_id !== undefined ? object.category_id.name : null} </td>  
         <td>  {object.name}  </td>
-         
          <td> {object.description} </td>  
          <td>  {object.amount}  </td>  
          <td>  {object.discount_percentage} </td> 
