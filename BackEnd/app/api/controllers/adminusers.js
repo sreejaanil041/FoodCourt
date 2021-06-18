@@ -20,7 +20,6 @@ modified
 module.exports = {
 
   create: function(req, res, next) {
-    console.log('create:', req.body);
   adminuserModel.findOne({email:req.body.email}, function(err, userInfo)
   {
     
@@ -29,7 +28,7 @@ module.exports = {
      }
      else
      {
-      adminuserModel.create({ first_name: req.body.first_name, last_name: req.body.last_name, email: req.body.email, password: req.body.password, phone_number: req.body.phone_number, created: req.body.created, modified: req.body.modified }, function (err, result) {
+      adminuserModel.create({ first_name: req.body.first_name, last_name: req.body.last_name, email: req.body.email, password: req.body.password, phone_number: req.body.phone_number}, function (err, result) {
 	  if (err) 
 	  next(err);
 	  else

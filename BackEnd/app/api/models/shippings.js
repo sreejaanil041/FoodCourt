@@ -23,20 +23,20 @@ modified
 
 
 const ShippingSchema = new Schema({
- name: {
-  type: String,
-  trim: true,  
-  required: true,
- },
+//  name: {
+//   type: String,
+//   trim: true,  
+//   required: true,
+//  },
  user_id   : { type: Schema.Types.ObjectId, ref: 'User' }, 
- ordertype: {type:Boolean, default:0},
+
  
  /*
   * 
   * status	tinyint	1	0 -> Home , 1-> Office/Commercial		
   * */
  
- 
+  ordertype: {type:Boolean, default:0},
  address: String,
   landmark: String,
   phone_number: String,

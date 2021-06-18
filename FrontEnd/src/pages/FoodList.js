@@ -16,16 +16,14 @@ class FoodList extends React.Component
     } 
 
     componentDidMount(){  
-     
-      axios.get( configpath + '/products',{
+      axios.get( configpath + '/products/admin',{
         headers: {
           'Content-Type': 'application/json',
          // 'x-access-token' : localStorage.getItem('token')
           }
       }
-      )  
+      )
         .then(response => { 
-          console.log("helloooooooooooooo"+ response.data.data.products) ;
           this.setState({ data: response.data.data.products });    
         })  
         .catch(function (error) {  
@@ -76,7 +74,7 @@ render(){
                         <thead>
                           <tr>
                             <th>Serial No:</th>
-                            <th>id</th>
+                           
                             <th>Category</th>
                             <th>Product Name</th>
                             <th>Description</th>
@@ -92,7 +90,7 @@ render(){
        return (  
         <tr key ={i}>  
         <td>  {i+1} </td>
-        <td>{object._id}</td>
+        
         <td> { object.category_id !== undefined ? object.category_id.name : null} </td>  
         <td>  {object.name}  </td>
          <td> {object.description} </td>  
