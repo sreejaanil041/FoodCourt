@@ -4,7 +4,7 @@ import Notifications from 'components/Notifications';
 import SearchInput from 'components/SearchInput';
 import { notificationsData } from 'demos/header';
 import withBadge from 'hocs/withBadge';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   MdClearAll,
   MdExitToApp,

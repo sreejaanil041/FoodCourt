@@ -20,7 +20,7 @@ class FoodList extends React.Component
       axios.get( configpath + '/products',{
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token' : localStorage.getItem('token')
+         // 'x-access-token' : localStorage.getItem('token')
           }
       }
       )  
@@ -37,7 +37,7 @@ class FoodList extends React.Component
      axios.delete( configpath + '/products/'+ foodProductsId, {
        headers: {
       'Content-Type': 'application/json',
-      'x-access-token' : localStorage.getItem('token')
+      //'x-access-token' : localStorage.getItem('token')
       }})  
     .then(response => {  
     if(response.data.status==='success'){ 

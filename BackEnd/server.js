@@ -51,7 +51,7 @@ app.use('/users', users);// private route
 
 app.use('/adminusers', adminusers);// private route
 
-app.use('/categories', validateUser, categories);
+app.use('/categories', categories);
 
 app.use('/products', products);
 

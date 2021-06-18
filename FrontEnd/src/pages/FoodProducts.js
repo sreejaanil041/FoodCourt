@@ -38,7 +38,7 @@ class FoodProducts extends React.Component {
             axios.get(configpath + '/products/' + this.props.match.params.id,{
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-access-token' : localStorage.getItem('token')
+                   // 'x-access-token' : localStorage.getItem('token')
                     }
             })
                 .then(response => {
@@ -64,7 +64,7 @@ class FoodProducts extends React.Component {
       axios.get(configpath + '/categories',{
         headers: {
             'Content-Type': 'application/json',
-            'x-access-token' : localStorage.getItem('token')
+            //'x-access-token' : localStorage.getItem('token')
             }
       }
       )
@@ -93,7 +93,7 @@ class FoodProducts extends React.Component {
             axios.put(configpath + '/products/' + this.props.match.params.id, data, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-access-token' : localStorage.getItem('token')
+                   // 'x-access-token' : localStorage.getItem('token')
                 }
             })
 
@@ -114,7 +114,7 @@ class FoodProducts extends React.Component {
             axios.post(configpath + '/products', data, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-access-token' : localStorage.getItem('token')
+                   // 'x-access-token' : localStorage.getItem('token')
                 }
             })
 

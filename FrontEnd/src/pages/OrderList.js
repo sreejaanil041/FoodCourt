@@ -22,15 +22,14 @@ render(){
                     <CardBody>
                    
                     <Card body>
-                      <Table dark>
+                      <Table >
                        <thead>
                           <tr>
                             <th>Order Id</th>
                             <th>Order Name</th>
                             <th>User Name</th>
-                            <th>Location</th>
                             <th>Order Status</th>
-                             <th>Delivered Time</th>
+                             <th>Quantity</th>
                               <th>Price</th>
                               <th>Actions</th>
                            
@@ -47,26 +46,7 @@ render(){
                              <td></td>
                              <td></td>
                           </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                             <td></td>
-                             <td></td>
-                             <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                             <td></td>
-                             <td></td>
-                             <td></td>
-                          </tr>
+                         
                         </tbody>
                       </Table>
               </Card>

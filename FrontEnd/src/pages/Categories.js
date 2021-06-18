@@ -37,7 +37,7 @@ class Categories extends React.Component
       axios.get(configpath +'/categories/' +this.props.match.params.id,{
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token' : localStorage.getItem('token')
+          
           }
       })  
           .then(response => {  
@@ -69,7 +69,7 @@ data.append('description', this.state.description);
       axios.put(configpath +'/categories/'+ this.props.match.params.id, data,{
       headers: {
       'Content-Type': 'application/json',
-      'x-access-token' : localStorage.getItem('token')
+     // 'x-access-token' : localStorage.getItem('token')
       }
   })  
 
@@ -90,7 +90,7 @@ this.props.history.push('/admin/categories')
     axios.post(configpath +'/categories', data,{
       headers: {
       'Content-Type': 'application/json',
-      'x-access-token' : localStorage.getItem('token')
+      //'x-access-token' : localStorage.getItem('token')
       }
   })  
 

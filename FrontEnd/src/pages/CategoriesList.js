@@ -22,7 +22,7 @@ super (props);
         axios.get(configpath + '/categories',{
             headers: {
                 'Content-Type': 'application/json',
-                'x-access-token' : localStorage.getItem('token')
+                //'x-access-token' : localStorage.getItem('token')
                 }
         })
             .then(response => {
@@ -39,7 +39,7 @@ console.log('hereeeeeeeeee')
         axios.delete(configpath + '/categories/' + categoryId,{
             headers: {
                 'Content-Type': 'application/json',
-                'x-access-token' : localStorage.getItem('token')
+               // 'x-access-token' : localStorage.getItem('token')
                 }
         })
             .then(response => {
@@ -50,7 +50,7 @@ console.log('hereeeeeeeeee')
             })
     }
     render() {
-console.log('stateeeeeeeee,',this.state.data)
+console.log('stateeeeeeeee,',this.state.data.data)
         return ( <Page title = "CategoriesList"
             breadcrumbs = {
                 [{ name: 'CategoriesList', active: true }] }
