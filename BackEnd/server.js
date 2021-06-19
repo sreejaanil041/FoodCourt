@@ -51,11 +51,11 @@ app.use('/users', users);// private route
 
 app.use('/adminusers', adminusers);// private route
 
-<<<<<<< HEAD
-app.use('/categories', categories);
-=======
+
+//app.use('/categories', categories);
+
 app.use('/categories', validateadminUser, categories);
->>>>>>> 616445e34a79837268087c47f36006350b8eed31
+
 
 app.use('/products', validateadminUser, products);
 
