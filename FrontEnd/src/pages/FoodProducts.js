@@ -35,7 +35,12 @@ class FoodProducts extends React.Component {
     componentDidMount() {
         this.CategoryList();
         if (this.props.match.params.id !== undefined) {
-            axios.get(configpath + '/products/' + this.props.match.params.id)
+            axios.get(configpath + '/products/' + this.props.match.params.id,{
+                headers: {
+                    'Content-Type': 'application/json',
+                   // 'x-access-token' : localStorage.getItem('token')
+                    }
+            })
                 .then(response => {
                     console.log(response.data.data)
                     this.setState({
@@ -56,7 +61,13 @@ class FoodProducts extends React.Component {
 
     CategoryList= ()=>
     {
-      axios.get(configpath + '/categories')
+      axios.get(configpath + '/categories',{
+        headers: {
+            'Content-Type': 'application/json',
+            //'x-access-token' : localStorage.getItem('token')
+            }
+      }
+      )
       .then(response => {
          console.log('data', response.data.data);
           this.setState({ categories: response.data.data.categories });               
@@ -82,10 +93,9 @@ class FoodProducts extends React.Component {
             axios.put(configpath + '/products/' + this.props.match.params.id, data, {
                 headers: {
                     'Content-Type': 'application/json',
-                    //'Authorization': token
+                   // 'x-access-token' : localStorage.getItem('token')
                 }
             })
-
 
             .then((response) => {
                 console.log(response);
@@ -104,7 +114,7 @@ class FoodProducts extends React.Component {
             axios.post(configpath + '/products', data, {
                 headers: {
                     'Content-Type': 'application/json',
-                    //'Authorization': token
+                   // 'x-access-token' : localStorage.getItem('token')
                 }
             })
 
@@ -156,7 +166,7 @@ class FoodProducts extends React.Component {
 
     render() {
         console.log("render"+ this.state.category_id)
-        return ( <Page className = "FoodProducts" title = "FoodProducts" breadcrumbs = {
+        return ( <Page className = "FoodProducts" title = "Food Products" breadcrumbs = {
                 [{ name: 'FoodProducts', active: true }] } >
 
             <Row >
@@ -170,9 +180,9 @@ class FoodProducts extends React.Component {
             <FormGroup row >
             <Label
             for = "ProductName"
-            sm = { 2 } >
+            sm = { 12 } >
             Product Name </Label> 
-            <Col sm = { 10 } >
+            <Col sm = { 12 } >
             <Input type = "text"
             name = "name"
             onChange = { this.handleChange }
@@ -184,9 +194,9 @@ class FoodProducts extends React.Component {
             <FormGroup row >
             <Label
             for = "categorySelect"
-            sm = { 2 } >
+            sm = { 12 } >
             Select Category </Label> 
-            <Col sm = { 10 } >
+            <Col sm = { 12 } >
             <Input type = "select"
             name = "category_id"
             onChange = { this.handleChange }
@@ -205,9 +215,9 @@ class FoodProducts extends React.Component {
             <FormGroup row >
             <Label
             for = "Description"
-            sm = { 2 } >
+            sm = { 12 } >
             Description </Label>
-            <Col sm = { 10 } >
+            <Col sm = { 12 } >
             <Input type = "text"
             name = "description"
             placeholder = "Enter the Description"
@@ -219,9 +229,9 @@ class FoodProducts extends React.Component {
             <FormGroup row >
             <Label
             for = "Amount"
-            sm = { 2 } >
+            sm = { 12 } >
             Amount </Label>
-            <Col sm = { 10 } >
+            <Col sm = { 12 } >
             <Input type = "text"
             name = "amount"
             placeholder = "Enter the Amount"
@@ -233,9 +243,9 @@ class FoodProducts extends React.Component {
             <FormGroup row >
             <Label
             for = "Discount Percentage"
-            sm = { 2 } >
+            sm = { 12 } >
             Discount Percentage </Label> 
-            <Col sm = { 10 } >
+            <Col sm = { 12 } >
             <Input type = "text"
             name = "discount_percentage"
             onChange = { this.handleChange }
@@ -246,9 +256,9 @@ class FoodProducts extends React.Component {
             <FormGroup row >
             <Label
             for = "Order Count"
-            sm = { 2 } >
+            sm = { 12 } >
             Order Count </Label> 
-            <Col sm = { 10 } >
+            <Col sm = { 12 } >
             <Input type = "text"
             name = "order_count"
             onChange = { this.handleChange }

@@ -25,10 +25,33 @@ modified
 module.exports = {
   
   
-  
+getAll: function(req, res, next) {
+    let shippingList = [];
+    shippingModel.find({user_id:req.body.userId, deleted:0}, function(err, address){
+        if (err){
+            next(err);
+        } else{
+            for (let addr of address) {
+                shippingList.push({
+                  id: addr._id, 
+                  ordertype: addr.ordertype, 
+                  address: addr.address, 
+                  landmark: addr.landmark, 
+                  phone_number: addr.phone_number, 
+                  alternative_phone_number: addr.alternative_phone_number, 
+                  city: addr.city, 
+                  state: addr.state,
+                  country: addr.country, 
+                  post_code: addr.post_code,
+                  default_status: addr.default_status
+                });
+            }
+            res.json({status:"success", message: "Categories list found!!!", data:{shipping: shippingList}});
+            
+        }
+    }).sort({ default_status: 1 });
+},
 getById: function(req, res, next) {
-  console.log(req.params);
-
   shippingModel.find({user_id:req.params.shippingid,default_status:1}, function(err, shippingInfo){
    if (err) {
     next(err);

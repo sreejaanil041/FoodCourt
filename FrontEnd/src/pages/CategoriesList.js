@@ -19,7 +19,12 @@ super (props);
 
     componentDidMount() {
        
-        axios.get(configpath + '/categories')
+        axios.get(configpath + '/categories',{
+            headers: {
+                'Content-Type': 'application/json',
+                //'x-access-token' : localStorage.getItem('token')
+                }
+        })
             .then(response => {
                console.log('data', response.data.data);
                 this.setState({ data: response.data.data.categories });               
@@ -31,7 +36,12 @@ super (props);
 
     DeleteCategories (categoryId)  {
 console.log('hereeeeeeeeee')
-        axios.delete(configpath + '/categories/' + categoryId)
+        axios.delete(configpath + '/categories/' + categoryId,{
+            headers: {
+                'Content-Type': 'application/json',
+               // 'x-access-token' : localStorage.getItem('token')
+                }
+        })
             .then(response => {
                 if (response.data.status === 'success') {
                     this.setState({ data: this.state.data.filter(item => item.id !== categoryId)});
@@ -40,7 +50,7 @@ console.log('hereeeeeeeeee')
             })
     }
     render() {
-console.log('stateeeeeeeee,',this.state.data)
+console.log('stateeeeeeeee,',this.state.data.data)
         return ( <Page title = "CategoriesList"
             breadcrumbs = {
                 [{ name: 'CategoriesList', active: true }] }

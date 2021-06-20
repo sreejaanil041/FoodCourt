@@ -88,7 +88,7 @@ render(){
             {this.object.phone_number}  
           </td>  
           <td>  
-            {object.image != null ? <img src={configpath+object.image}/> : "No image"}
+            {object.image !== null ? <img src={configpath+object.image}/> : "No image"}
           </td>  
           <td>  
           < Link to = { "/users/edit/" + object.id } className = "btn btn-success mr-1"  > Edit </Link>

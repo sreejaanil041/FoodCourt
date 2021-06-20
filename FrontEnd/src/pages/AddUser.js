@@ -30,8 +30,6 @@ class AddUser extends React.Component
            password: '',
            phone_number:'',
            image:''
-          
-
     }
   }
 
@@ -40,8 +38,7 @@ class AddUser extends React.Component
        {
       axios.get(configpath +'/users/' +this.props.match.params.id)  
           .then(response => {  
-              this.setState({   
-                  
+              this.setState({                   
                 name: response.data.data.user.name,
                 email: response.data.data.user.email,
                 password: response.data.data.user.password,
