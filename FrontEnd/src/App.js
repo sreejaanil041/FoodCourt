@@ -1,6 +1,6 @@
 import { STATE_LOGIN, STATE_SIGNUP } from 'components/AuthForm';
 import GAListener from 'components/GAListener';
-import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
+import { EmptyLayout, LayoutRoute, MainLayout, HomeLayout } from 'components/Layout';
 import PageSpinner from 'components/PageSpinner';
 import AuthPage from 'pages/AuthPage';
 import React from 'react';
@@ -32,6 +32,11 @@ const CategoriesListPage = React.lazy(() => import('pages/CategoriesList'));
 const OrderListPage = React.lazy(() => import('pages/OrderList'));
 const UserListPage = React.lazy(() => import('pages/UserList'));
 const AddUserPage = React.lazy(() => import('pages/AddUser'));
+const HomePage = React.lazy(() => import('pages/HomePage'));
+const CartPage = React.lazy(() => import('pages/Cart'));
+const FoodMenu = React.lazy(() => import('pages/HomePage'));
+const LoginPage = React.lazy(() => import('pages/Login'));
+const SignUpPage = React.lazy(() => import('pages/SignUpPage'));
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/admin').pop()}`;
@@ -42,39 +47,48 @@ const gettoken = () => {
   return  localStorage.get('token');;
 };
 class App extends React.Component {
-  
+
   render() {
-    
+
     return (
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
-            <LayoutRoute
+             {/* <LayoutRoute
               exact
-              path="/admin/login"
+              path="/login"
               layout={EmptyLayout}
               component={props => (
-                <AuthPage {...props} authState={STATE_LOGIN} history={this.props.history} />
+                <AuthPage {...props} authState={STATE_LOGIN} />
               )}
-            />
-            <LayoutRoute
+            /> */}
+            {/* <LayoutRoute
               exact
-              path="/admin/signup"
+              path="/signup"
               layout={EmptyLayout}
               component={props => (
-                <AuthPage {...props} authState={STATE_SIGNUP} history={this.props.history}/>
+                <AuthPage {...props} authState={STATE_SIGNUP} />
               )}
-            />
+            /> */}
+             <HomeLayout>
+                <React.Suspense fallback={<PageSpinner />}>
+                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/login" component={LoginPage} />
+                    <Route exact path="/sign-up" component={SignUpPage} />
+                    <Route exact path="/my-cart" component={CartPage} />
+                    <Route exact path="/food-menu" component={FoodMenu} />
 
+                </React.Suspense>
+             </HomeLayout>
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
-             
+
                 <Route exact path="/admin" component={DashboardPage} />
                 <Route exact path="/admin/add-food-product" component={FoodProductsPage} />
-                <Route exact path="/admin/food-products/edit/:id" component={FoodProductsPage} />  
+                <Route exact path="/admin/food-products/edit/:id" component={FoodProductsPage} />
                 <Route exact path="/admin/food-products" component={FoodListPage} />
                 <Route exact path="/admin/add-category" component={CategoriesPage} />
-                <Route exact path="/admin/category/edit/:id" component={CategoriesPage} />                
+                <Route exact path="/admin/category/edit/:id" component={CategoriesPage} />
                 <Route exact path="/admin/categories" component={CategoriesListPage} />
                  <Route exact path="/admin/orders" component={OrderListPage} />
                  <Route exact path="/admin/users" component={UserListPage} />
@@ -90,7 +104,7 @@ class App extends React.Component {
                 <Route exact path="/alerts" component={AlertPage} />
                 <Route exact path="/tables" component={TablePage} />
                 <Route exact path="/badges" component={BadgePage} />
-                
+
                 <Route
                   exact
                   path="/button-groups"
