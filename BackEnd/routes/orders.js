@@ -10,7 +10,7 @@ router.get('/cart', orderController.getCartAll);
 
 router.post('/add-to-cart', orderController.addToCart);
 
-router.delete('/cart/:productId', orderController.deleteCartById);
+router.delete('/cart/:cartId', orderController.deleteCartById);
 
 router.get('/getallorders', orderController.getAll);
 
@@ -20,4 +20,4 @@ router.get('/getStat', orderController.getStat);
 
 router.post('/change-transaction-status', orderController.changeTransactionStatus);
 
-module.exports = router; 
+module.exports = router;
