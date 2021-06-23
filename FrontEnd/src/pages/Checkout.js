@@ -13,9 +13,10 @@ export default class Checkout extends React.Component {
 
 	componentWillMount() {
 		let cart = localStorage.getItem('cart');
-		if (!cart) return; 
-		getCartProducts(cart).then((products) => {
-			let total = 0;
+		if (!cart) return;
+		// getCartProducts(cart).then((products) => {
+            getCartProducts().then((products) => {
+        	let total = 0;
 			for (var i = 0; i < products.length; i++) {
 				total += products[i].price * products[i].qty;
 			}
@@ -24,26 +25,26 @@ export default class Checkout extends React.Component {
 	}
 
 	render() {
-		if (!isAuthenticated()) return (<Redirect to="/login" />);
+		// if (!isAuthenticated()) return (<Redirect to="/login" />);
 		const { products, total } =  this.state;
 		return (
 			<div className=" container">
 				<h3 className="card-title">Checkout</h3>
 				<hr/>
-				{
-					products.map((product, index) => 
+				{ products.length ?
+					products.map((product, index) =>
 						<div key={index}>
 							<p>
-								{product.name} 
+								{product.name}
 								<small> (quantity: {product.qty})</small>
 								<span className="float-right text-primary">${product.qty * product.price}</span>
 							</p><hr/>
 						</div>
-					)
+					):<h3 className="text-warning">No item on the cart</h3>
 				}
 				<hr/>
 				{ products.length ? <div><h4><small>Total Amount:</small><span className="float-right text-primary">${total}</span></h4><hr/></div>: ''}
-				{ !products.length ? <h3 className="text-warning">No item on the cart</h3>: ''}
+				{/* { !products.length ? <h3 className="text-warning">No item on the cart</h3>: ''} */}
 				{ products.length ? <button className="btn btn-success float-right" onClick={() => alert('Proceed to Pay')}>Pay</button>: '' }
 				<Link to="/"><button className="btn btn-danger float-right" style={{ marginRight: "10px" }}>Cancel</button></Link>
 				<br/><br/><br/>

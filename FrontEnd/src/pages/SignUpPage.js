@@ -23,7 +23,11 @@ export default class SignUp extends React.Component{
   submitRegister(event){
     event.preventDefault();
     register(this.state)
-      .then(res =>{ console.log(res)})
+      .then(res =>{
+          alert('User registered successfully. Please login.')
+          window.location='/login';
+
+      })
       .catch(err => alert(err));
   }
 

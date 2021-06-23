@@ -5,6 +5,7 @@ import SearchInput from 'components/SearchInput';
 import { notificationsData } from 'demos/header';
 import withBadge from 'hocs/withBadge';
 import React from 'react';
+import { isAuthenticated } from './../../repository';
 import {
   MdClearAll,
   MdExitToApp,
@@ -75,6 +76,11 @@ class Header extends React.Component {
     document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
   };
 
+  logout=()=>{
+      alert('logout');
+      localStorage.clear();
+  }
+
   render() {
     const { isNotificationConfirmed } = this.state;
 
@@ -94,12 +100,11 @@ class Header extends React.Component {
           <NavItem className="d-inline-flex">
           <Link to="/food-menu" class="d-flex align-items-center mr-3" >Food menu</Link>
             <Link to="/my-cart" class="d-flex align-items-center mr-3" >My cart</Link>
-            <Link to="/login" class="d-flex align-items-center mr-3" >Login</Link>
-
-
+                {isAuthenticated()?<Link to="/login" onClick={this.logout} class="d-flex align-items-center mr-3" >Logout</Link>:
+                 <Link to="/login" class="d-flex align-items-center mr-3" >Login</Link>}
           </NavItem>
 
-          <NavItem>
+          {/* <NavItem>
             <NavLink id="Popover2">
               <Avatar
                 onClick={this.toggleUserCardPopover}
@@ -144,7 +149,7 @@ class Header extends React.Component {
                 </UserCard>
               </PopoverBody>
             </Popover>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </Navbar>
     );

@@ -34,6 +34,7 @@ const UserListPage = React.lazy(() => import('pages/UserList'));
 const AddUserPage = React.lazy(() => import('pages/AddUser'));
 const HomePage = React.lazy(() => import('pages/HomePage'));
 const CartPage = React.lazy(() => import('pages/Cart'));
+const CheckoutPage = React.lazy(() => import('pages/Checkout'));
 const FoodMenu = React.lazy(() => import('pages/HomePage'));
 const LoginPage = React.lazy(() => import('pages/Login'));
 const SignUpPage = React.lazy(() => import('pages/SignUpPage'));
@@ -77,6 +78,8 @@ class App extends React.Component {
                     <Route exact path="/sign-up" component={SignUpPage} />
                     <Route exact path="/my-cart" component={CartPage} />
                     <Route exact path="/food-menu" component={FoodMenu} />
+                    <Route exact path="/checkout" component={CheckoutPage} />
+
 
                 </React.Suspense>
              </HomeLayout>

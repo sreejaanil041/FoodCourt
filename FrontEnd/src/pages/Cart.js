@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCartProducts } from '../repository';
+import { getCartProducts, deleteCartItem } from '../repository';
 import CartItem from './CartItem';
 
 export default class Cart extends React.Component {
@@ -13,27 +13,37 @@ export default class Cart extends React.Component {
 	}
 
 	componentWillMount() {
+
         let cart = localStorage.getItem('cart');
-        console.log(cart)
+        if (!cart) return;
+        getCartProducts().then((res) => {
+            const carts = res.data.cart;
+            console.log(carts)
+            let total = 0;
+			for (var i = 0; i < carts.length; i++) {
+				total += carts[i].amount * carts[i].quantity;
+            }
+            this.setState({ products: carts, total });
+
+          });
 
 
-		if (!cart) return;
-		getCartProducts(cart).then((products) => {
-			let total = 0;
-			for (var i = 0; i < products.length; i++) {
-				total += products[i].price * products[i].qty;
-			}
-	    	this.setState({ products, total });
-	    });
-	}
+    }
+    componentDidMount(){
+
+      }
 
 	removeFromCart = (product) => {
-		let products = this.state.products.filter((item) => item.id !== product.id);
-		let cart = JSON.parse(localStorage.getItem('cart'));
-		delete cart[product.id.toString()];
-		localStorage.setItem('cart', JSON.stringify(cart));
-		let total = this.state.total - (product.qty * product.price)
-		this.setState({products, total});
+        console.log(product)
+        console.log(this.state.products)
+
+        deleteCartItem(product._id)
+		let products = this.state.products.filter((item) => item._id !== product._id);
+		// let cart = JSON.parse(localStorage.getItem('cart'));
+		// delete cart[product.id.toString()];
+		// localStorage.setItem('cart', JSON.stringify(cart));
+		// let total = this.state.total - (product.qty * product.price)
+		// this.setState({products, total});
 	}
 
 	clearCart = () => {
