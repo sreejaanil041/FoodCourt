@@ -59,7 +59,7 @@ export default class Checkout extends React.Component {
 	}
 
 	render() {
-		// if (!isAuthenticated()) return (<Redirect to="/login" />);
+		if (!isAuthenticated()) return (<Redirect to="/login" />);
 		const { products, total } =  this.state;
 		return (
             <div class="container">
@@ -88,7 +88,7 @@ export default class Checkout extends React.Component {
                 </li>
                 </ul>
                 <button class="btn btn-primary btn-lg btn-block" onClick={this.checkout}
-                 type="button">Submit</button>
+                 type="button">Proceed</button>
 
                 </div>
 

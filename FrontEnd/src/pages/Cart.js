@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCartProducts, deleteCartItem } from '../repository';
+import { isAuthenticated,getCartProducts, deleteCartItem } from '../repository';
 import CartItem from './CartItem';
+import { Redirect } from 'react-router';
 
 export default class Cart extends React.Component {
 	constructor(props) {
@@ -62,6 +63,9 @@ export default class Cart extends React.Component {
 	}
 
 	render() {
+        if (!isAuthenticated()) return (
+        <Redirect to="/login" />);
+
 		const { products, total } =  this.state;
 		return (
 			<div className=" container">
