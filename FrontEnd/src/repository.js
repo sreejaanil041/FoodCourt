@@ -7,10 +7,7 @@ export function getProducts() {
 		.then(response => response.data.data);
 }
 
-// export function getCartProducts(cart) {
-// 	return axios.post(`${BASE_URL}/api/products`, {cart})
-// 		.then(response => response.data);
-// }
+
 
 export function login (data) {
 	return axios.post(`${BASE_URL}/users/authenticate`, { email: data.name, password: data.password })
@@ -51,6 +48,20 @@ export function getCartProducts() {
 
 export function deleteCartItem(cartId) {
 	return axios.delete(`${BASE_URL}/orders/cart/${cartId}`,{ headers: {
+        'Content-Type': 'application/json',
+        'x-access-token' : `${token}`}
+         })
+		.then(response => response.data);
+}
+export function addShippingAddress(data) {
+	return axios.post(`${BASE_URL}/shippings/create`, data,{ headers: {
+        'Content-Type': 'application/json',
+        'x-access-token' : `${token}`}
+         })
+		.then(response => response.data);
+}
+export function checkout(shipping_address_id) {
+	return axios.post(`${BASE_URL}/orders/create/`, {shipping_address_id},{ headers: {
         'Content-Type': 'application/json',
         'x-access-token' : `${token}`}
          })

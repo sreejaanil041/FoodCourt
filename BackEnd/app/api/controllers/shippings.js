@@ -1,6 +1,6 @@
 const shippingModel = require('../models/shippings');
 
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
 
 const jwt = require('jsonwebtoken');
 
@@ -20,11 +20,11 @@ modified
 */
 
 
- 
- 
+
+
 module.exports = {
-  
-  
+
+
 getAll: function(req, res, next) {
     let shippingList = [];
     shippingModel.find({user_id:req.body.userId, deleted:0}, function(err, address){
@@ -33,21 +33,21 @@ getAll: function(req, res, next) {
         } else{
             for (let addr of address) {
                 shippingList.push({
-                  id: addr._id, 
-                  ordertype: addr.ordertype, 
-                  address: addr.address, 
-                  landmark: addr.landmark, 
-                  phone_number: addr.phone_number, 
-                  alternative_phone_number: addr.alternative_phone_number, 
-                  city: addr.city, 
+                  id: addr._id,
+                  ordertype: addr.ordertype,
+                  address: addr.address,
+                  landmark: addr.landmark,
+                  phone_number: addr.phone_number,
+                  alternative_phone_number: addr.alternative_phone_number,
+                  city: addr.city,
                   state: addr.state,
-                  country: addr.country, 
+                  country: addr.country,
                   post_code: addr.post_code,
                   default_status: addr.default_status
                 });
             }
             res.json({status:"success", message: "Categories list found!!!", data:{shipping: shippingList}});
-            
+
         }
     }).sort({ default_status: 1 });
 },
@@ -60,8 +60,8 @@ getById: function(req, res, next) {
    }
   });
  },
- 
-   
+
+
  /*
 getById: function(req, res, next) {
   console.log(req.params);
@@ -74,14 +74,14 @@ getById: function(req, res, next) {
    }
   });
  },
- 
+
  */
 
- 
- 
+
+
  create: function(req, res, next) {
-   
-      shippingModel.create({ name: req.body.name, user_id: req.body.userId, address: req.body.address, landmark: req.body.landmark, phone_number: req.body.phone_number, 
+
+      shippingModel.create({ name: req.body.name, user_id: req.body.userId, address: req.body.address, landmark: req.body.landmark, phone_number: req.body.phone_number,
 	alternative_phone_number: req.body.alternative_phone_number,
 	city: req.body.city,
 	state: req.body.state,
@@ -89,28 +89,28 @@ getById: function(req, res, next) {
 	post_code: req.body.post_code,
 	phone_number: req.body.phone_number,
 	created: req.body.created, modified: req.body.modified }, function (err, result) {
-	  if (err) 
+	  if (err)
 	  next(err);
 	  else
-	  res.json({status: "success", message: "Shipping details added successfully!!!", data: null});
-	  
+	  res.json({status: "success", message: "Shipping details added successfully!!!", data: result});
 
- 
+
+
   });
  },
- 
- 
+
+
  updateById: function(req, res, next) {
   shippingModel.findByIdAndUpdate(req.params.shippingId,{name:req.body.name,
-    
-    address: req.body.address, landmark: req.body.landmark, phone_number: req.body.phone_number, 
+
+    address: req.body.address, landmark: req.body.landmark, phone_number: req.body.phone_number,
 	alternative_phone_number: req.body.alternative_phone_number,
 	city: req.body.city,
 	state: req.body.state,
 	country: req.body.country,
 	post_code: req.body.post_code,
 	phone_number: req.body.phone_number, modified: req.body.modified
-    
+
   }, function(err, shippingInfo){if(err)
     next(err);
    else {
@@ -118,8 +118,8 @@ getById: function(req, res, next) {
    }
   });
  },
- 
- 
+
+
  deleteById: function(req, res, next) {
   shippingModel.findByIdAndUpdate(req.params.shippingId, {deleted:1}, function(err, shippingInfo){
    if(err)
@@ -129,9 +129,9 @@ getById: function(req, res, next) {
    }
   });
  },
- 
- 
 
- 
- 
-} 
+
+
+
+
+}

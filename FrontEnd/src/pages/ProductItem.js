@@ -1,5 +1,6 @@
 import React from 'react';
-import { postCartProducts, isAuthenticated} from '../repository'
+import { postCartProducts, isAuthenticated} from '../repository';
+import {configpath} from '../utils/config';
 export default class ProductItem extends React.Component {
 
 	constructor(props) {
@@ -30,25 +31,20 @@ export default class ProductItem extends React.Component {
             alert(`Maximum available order for this food is, ${available_quantity}`);
             return;
          }else{
-
             var cartItems = [];
             cartItems.push({id: this.props.product._id, quantity: this.state.quantity});
             console.log(cartItems)
             postCartProducts(cartItems)
-             .then(res => console.log(res))
+             .then(res => {
+                 if(res.status == 'error'){
+                     alert(res.message,'.Please login again');
+                     return;
+                 }
+             })
             .catch(err => alert(err));
 
+            cart[id] = qty
 
-            // let id = this.props.product._id.toString();
-            // cart[id] = (cart[id] ? cart[id]: 0);
-            // let qty = cart[id] + parseInt(this.state.quantity);
-            // let available_quantity = this.props.product.order_count-cart[id];
-            if (this.props.product.order_count < qty) {
-               alert(`Maximum available order for this food is, ${available_quantity}`)
-            } else {
-
-                cart[id] = qty
-            }
 
 
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -61,7 +57,7 @@ export default class ProductItem extends React.Component {
 		return (
             <div class="col-md-4">
             <div class="card mb-4 box-shadow">
-            <img src={product.image} alt="product" />
+            {product.image !== null ? <img src={configpath+product.image} alt="image"/> : "No image"}
             <div class="card-body">
 
 
@@ -85,25 +81,7 @@ export default class ProductItem extends React.Component {
               </div>
             </div>
           </div>)
-		    {/* <div className="card" style={{ marginBottom: "10px"}}>
-			  <div className="card-body">
-			    <h4 className="card-title">{product.name}</h4>
-			    <p className="card-text">{product.description}</p>
-                <p className="card-text">{product.short_description}</p>
-			    <h5 className="card-text"><small>price: </small>${product.amount}</h5> */}
-			    {/* <span className="card-text"><small>Available Quantity: </small>{product.available_quantity}</span> */}
 
-			    {/* { product.available_quantity > 0 ? */}
-			    	{/* <div>
-			    		<button className="btn btn-sm btn-warning float-right" onClick={this.addToCart}>Add to cart</button>
-			    		<input type="number" value={this.state.quantity} name="quantity" onChange={this.handleInputChange} className="float-right" style={{ width: "60px", marginRight: "10px", borderRadius: "3px"}}/>
-			    	</div> */}
-                     {/* :
-			    	<p className="text-danger"> product is out of stock </p>
-			 	} */}
-
-			  {/* </div>
-			</div> */}
 
 	}
 }

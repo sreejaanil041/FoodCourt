@@ -17,13 +17,23 @@ export default class Cart extends React.Component {
         let cart = localStorage.getItem('cart');
         if (!cart) return;
         getCartProducts().then((res) => {
+            if(res.status=='error'){
+                alert(res.message + '.  Please login again');
+                window.location = '/login';
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                return;
+
+            }else{
             const carts = res.data.cart;
-            console.log(carts)
             let total = 0;
 			for (var i = 0; i < carts.length; i++) {
 				total += carts[i].amount * carts[i].quantity;
             }
             this.setState({ products: carts, total });
+
+            }
+
 
           });
 
@@ -39,11 +49,11 @@ export default class Cart extends React.Component {
 
         deleteCartItem(product._id)
 		let products = this.state.products.filter((item) => item._id !== product._id);
-		// let cart = JSON.parse(localStorage.getItem('cart'));
-		// delete cart[product.id.toString()];
-		// localStorage.setItem('cart', JSON.stringify(cart));
-		// let total = this.state.total - (product.qty * product.price)
-		// this.setState({products, total});
+		let cart = JSON.parse(localStorage.getItem('cart'));
+		delete cart[product.product_id._id.toString()];
+		localStorage.setItem('cart', JSON.stringify(cart));
+		let total = this.state.total - (product.quantity * product.amount)
+		this.setState({products, total});
 	}
 
 	clearCart = () => {
@@ -65,7 +75,6 @@ export default class Cart extends React.Component {
 
 				{ !products.length ? <h3 className="text-warning">No item on the cart</h3>: ''}
 				<Link to="/checkout"><button className="btn btn-success float-right">Checkout</button></Link>
-				<button className="btn btn-danger float-right" onClick={this.clearCart} style={{ marginRight: "10px" }}>Clear Cart</button>
 				<br/><br/><br/>
 			</div>
 		);

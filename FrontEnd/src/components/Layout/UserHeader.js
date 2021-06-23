@@ -72,12 +72,10 @@ class Header extends React.Component {
   handleSidebarControlButton = event => {
     event.preventDefault();
     event.stopPropagation();
-
     document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
   };
 
   logout=()=>{
-      alert('logout');
       localStorage.clear();
   }
 
